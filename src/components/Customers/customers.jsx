@@ -382,7 +382,6 @@ const Customers = ({ customer }) => {
                                         <th className="py-3 px-6">S. NO.</th>
                                         <th className="py-3 px-6">Customers Name</th>
                                         <th className="py-3 px-6">Contact No.</th>
-                                        <th className="py-3 px-6 print:hidden">Alt. Contact No.</th>
                                         <th className="py-3 px-6 print:hidden">View Data</th>
                                         <th className="py-3 px-6">Last Entry Date</th>
                                         <th className="py-3 px-6">Balance</th>
@@ -395,7 +394,6 @@ const Customers = ({ customer }) => {
                                             <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customerid}</td>
                                             <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
                                             <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">{item.phoneno2}</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
                                                 <button
@@ -429,14 +427,6 @@ const Customers = ({ customer }) => {
                                                             name="phoneno"
                                                             placeholder='Phone No'
                                                             value={newData.phoneno}
-                                                            onChange={handleFormChange}
-                                                            className="border p-2 rounded-md"
-                                                        />
-                                                        <input
-                                                            type="tel"
-                                                            name="phoneno2"
-                                                            placeholder='Alt. Phone No'
-                                                            value={newData.phoneno2}
                                                             onChange={handleFormChange}
                                                             className="border p-2 rounded-md"
                                                         />
