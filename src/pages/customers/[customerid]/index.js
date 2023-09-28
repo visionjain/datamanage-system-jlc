@@ -9,7 +9,6 @@ import jlc from '../../../../public/jlc.png';
 
 
 
-
 const Landing = () => {
     const [customer, setCustomer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -152,11 +151,15 @@ const Landing = () => {
     const [isAddingData, setIsAddingData] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
 
-    const handleEditClick = (index) => {
+    const handleEditClick = (index, _id) => {
         setEditingIndex(index);
-        setNewData(customer.data[index]);
+        // Find the row to edit based on _id and set it as newData
+        const rowToEdit = customer.data.find(item => item._id === _id);
+        setNewData(rowToEdit || {});
         setIsAddingData(true);
     };
+
+
 
     const handleDeleteClick = async (index, _id) => {
         const shouldDelete = window.confirm("Are you sure you want to delete this item?");
@@ -414,8 +417,6 @@ const Landing = () => {
 
 
 
-
-
     if (!customer) {
         <div className="flex justify-center items-center h-screen">
             <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
@@ -452,6 +453,12 @@ const Landing = () => {
                             >
                                 Print Table
                             </button>
+                            {/* <button
+                                onClick={pdfdownload}
+                                className="bg-green-800 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
+                            >
+                                Download as PDF
+                            </button> */}
                             <ExcelGenerator tableItems={customer.data} />
                         </div>
 
@@ -594,11 +601,13 @@ const Landing = () => {
                                             </td>
                                             <td className="text-right px-6 whitespace-nowrap print:hidden font-bold ">
                                                 <button
-                                                    onClick={() => handleEditClick(idx, item.numberid)} // Call handleEditClick with the index
+                                                    onClick={() => handleEditClick(idx, item._id)} // Pass both idx and item._id
                                                     className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                 >
                                                     Edit
                                                 </button>
+
+
                                                 <button
                                                     onClick={() => handleDeleteClick(idx, item._id)} // Call the delete handler with item._id
                                                     className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
