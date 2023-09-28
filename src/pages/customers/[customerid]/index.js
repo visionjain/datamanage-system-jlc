@@ -108,14 +108,28 @@ const Landing = () => {
                 (valueToNumber(data.Limeoffw) * valueToNumber(data.LimeoffwPrice)) +
                 (valueToNumber(data.jhiki) * valueToNumber(data.jhikiPrice)) +
                 (valueToNumber(data.rs) * valueToNumber(data.rsPrice));
-
-            const dr = (totalProductAmount + valueToNumber(data.autocharge) + valueToNumber(data.labourcharge) + valueToNumber(data.extracharge)).toFixed(2);
+        
+            const dr = (totalProductAmount + valueToNumber(data.autocharge) + valueToNumber(data.labourcharge) + valueToNumber(data.extracharge));
+        
+            // Round the dr value based on your criteria (0.00 to 0.49 down to 0 and 0.50 to 0.99 up to 1)
+            const roundedDR = customRound(dr);
+        
             const cr = valueToNumber(data.cr) || 0;
-            const balance = (previousBalance + valueToNumber(dr) - valueToNumber(cr)).toFixed(2);
-
-
-            return { dr, balance };
+            const balance = (previousBalance + valueToNumber(roundedDR) - valueToNumber(cr)).toFixed(2);
+        
+            return { dr: roundedDR, balance };
         };
+        
+        // Custom rounding function
+        const customRound = (value) => {
+            const decimalPart = value - Math.floor(value); // Get the decimal part
+            if (decimalPart >= 0.5) {
+                return Math.ceil(value); // Round up if decimal is 0.50 to 0.99
+            } else {
+                return Math.floor(value); // Round down if decimal is 0.00 to 0.49
+            }
+        };
+        
 
 
 
