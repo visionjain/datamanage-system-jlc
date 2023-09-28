@@ -410,6 +410,11 @@ const Landing = () => {
 
 
 
+    // Function to format a decimal number with commas as thousands separators and two decimal places
+    function formatDecimalWithCommasAndDecimals(number) {
+        return new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2 }).format(number);
+    }
+
 
 
 
@@ -498,7 +503,7 @@ const Landing = () => {
                         />
                     </div>
                     <div className="mt-2 font-medium print:hidden">
-                        Old Due Balance: {initialBalance}
+                        Old Due Balance: {initialBalance.toLocaleString('en-IN')}
                     </div>
 
                     <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto mb-10">
@@ -589,8 +594,11 @@ const Landing = () => {
                                             </td>
 
                                             <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.balance < 0 ? `${Math.abs(item.balance)} ADV` : item.balance}
+                                                {item.balance < 0
+                                                    ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
+                                                    : formatDecimalWithCommasAndDecimals(item.balance)}
                                             </td>
+
                                             <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
                                                 <button
                                                     onClick={() => handleViewData(customer.customerid, item._id)}
