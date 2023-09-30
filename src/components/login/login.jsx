@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from "next/image";
-import Link from 'next/link';
-import jlc from "../../../public/jlc.png"
+import jlc from "../../../public/jlc.png";
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const Login = () => {
+    const router = useRouter();
+    const [error, setError] = useState(''); // State variable to track error message
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post('/api/login', {
+                userid: event.target.userid.value,
+                password: event.target.password.value,
+            });
+
+            if (response.status === 200) {
+                // Save the JWT token in local storage
+                localStorage.setItem('token', response.data.token);
+
+                // Redirect to the protected page
+                router.push('/selector');
+            } else {
+                // Handle other status codes
+                console.error('Login error:', response.data.error);
+                setError('Invalid credentials'); // Set error message
+            }
+        } catch (error) {
+            // Handle network or server error
+            console.error('Error:', error);
+            setError('Invalid credentials'); // Set error message
+        }
+    };
+
     return (
         <div>
             <div>
@@ -31,14 +62,14 @@ const Login = () => {
                         </div>
                     </div>
                     <form
-                        action="/api/login" method='post'
+                        onSubmit={handleSubmit} action="" method="post"
                     >
                         <div>
                             <label className="font-medium">
                                 Username
                             </label>
                             <input
-                                type="userid"
+                                type="text"
                                 name='userid'
                                 placeholder='Type your username'
                                 required
@@ -47,7 +78,7 @@ const Login = () => {
                         </div>
                         <div>
                             <label className="font-medium">
-                                Passoword
+                                Password
                             </label>
                             <input
                                 type="password"
@@ -57,19 +88,21 @@ const Login = () => {
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
-                        {/* <Link href='/customers'> */}
+                        {error && ( // Conditional rendering of error message
+                            <div className="text-red-500">{error}</div>
+                        )}
                         <button
                             className="w-full mt-4 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 cursor-pointer"
-                            type='submit' value='Login'
+                            type='submit'
                         >
                             Log In
                         </button>
-                        {/* </Link> */}
                     </form>
                 </div>
             </main>
+            {error && <p className="text-red-500">{error}</p>}
         </div>
     )
 }
 
-export default Login
+export default Login;

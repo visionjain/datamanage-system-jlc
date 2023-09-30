@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { useAuth } from '../../../useAuth'
 
 const BillPage = () => {
+  useAuth();
   const router = useRouter();
   const { customerid, _id } = router.query;
 

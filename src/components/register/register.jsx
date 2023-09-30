@@ -11,7 +11,19 @@ const Register = () => {
     const [error, setError] = useState('');
     const [showAlert, setShowAlert] = useState(false);
 
+
     const router = useRouter(); // Initialize the Next.js router
+
+    useEffect(() => {
+        const token = localStorage.getItem('token'); // You can also use cookies for this
+        if (token) {
+            // Redirect authenticated users to a protected page (e.g., /selector)
+            router.push('/selector');
+        }
+    }, [router]); // Include 'router' in the dependency array
+
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -27,6 +39,11 @@ const Register = () => {
                 setPassword('');
                 setReferralCode('');
                 setSuccessMessage('Registration successful');
+                // Save the JWT token in local storage (you can also use cookies)
+                localStorage.setItem('token', response.data.token);
+
+                // Redirect the user to a protected page (e.g., /selector)
+                router.push('/selector');
             } else {
                 // Handle unexpected response status
                 setError('Error Occured');
