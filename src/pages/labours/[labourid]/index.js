@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import ExcelGenerator from '../../../components/landing/ExcelGenerator';
 import axios from 'axios';
 import { useAuth } from '../../../components/Customers/useAuth'
+import LogoutButton from "../../../components/Customers/LogoutButton";
 
 const Landing = () => {
     useAuth();
@@ -206,7 +207,7 @@ const Landing = () => {
                             </h3>
                             <ExcelGenerator tableItems={labour.data} />
                         </div>
-                        <div className="mt-3 md:mt-0">
+                        <div className="mt-3 md:mt-0 print:hidden">
                             <a
                                 className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm print:hidden"
                                 onClick={handleAddDataClick}
@@ -219,6 +220,7 @@ const Landing = () => {
                             >
                                 Print Table
                             </button>
+                            <LogoutButton/>
                         </div>
 
                     </div>

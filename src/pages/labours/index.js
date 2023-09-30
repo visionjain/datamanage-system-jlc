@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { useAuth } from '../../components/Customers/useAuth'
+import LogoutButton from "../../components/Customers/LogoutButton";
 
 
 const Labours = ({ labour }) => {
@@ -280,6 +281,7 @@ const Labours = ({ labour }) => {
                                 >
                                     Add Labour
                                 </a>
+                                <LogoutButton/>
                             </div>
                         </div>
                         <table className="border-2 border-black mx-auto">

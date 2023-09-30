@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import { useAuth } from './useAuth'
+import { useAuth } from './useAuth';
+import LogoutButton from "./LogoutButton";
 
 
 
 const Customers = ({ customer }) => {
-    useAuth();
+    const { user } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [customerData, setCustomerData] = useState([]);
     const [isAddingData, setIsAddingData] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [userid, setUserid] = useState('');
+    
 
-
+    useEffect(() => {
+        // Get the userid from local storage
+        const storedUserid = localStorage.getItem('userid');
+    
+        if (storedUserid) {
+          setUserid(storedUserid);
+        }
+      }, []);
 
 
 
@@ -328,6 +338,7 @@ const Customers = ({ customer }) => {
                         <div className="items-start justify-between md:flex">
                             <div className="max-w-lg ">
                                 <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+                                <div>Welcome, {userid}</div>
                                     All Customers
                                 </h3>
                             </div>
@@ -344,6 +355,7 @@ const Customers = ({ customer }) => {
                             >
                                 Print Table
                             </button>
+                            <LogoutButton />
                             </div>
                         </div>
                         <table className="border-2 border-black mx-auto">

@@ -20,6 +20,7 @@ const Login = () => {
             if (response.status === 200) {
                 // Save the JWT token in local storage
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('userid', event.target.userid.value);
 
                 // Redirect to the protected page
                 router.push('/selector');
