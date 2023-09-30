@@ -5,7 +5,7 @@ import ExcelGenerator from '../../../components/landing/ExcelGenerator';
 import axios from 'axios';
 import Image from 'next/image';
 import jlc from '../../../../public/jlc.png';
-import { useAuth } from '../../useAuth'
+import { useAuth } from '../../../components/Customers/useAuth'
 
 
 

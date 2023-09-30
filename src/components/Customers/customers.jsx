@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import { useAuth } from '../../pages/useAuth'
+import { useAuth } from './useAuth'
 
 
 
