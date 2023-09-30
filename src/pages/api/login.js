@@ -10,15 +10,15 @@ const handler = async (req, res) => {
             const user = await User.findOne({ userid });
 
             if (user && user.password === password) {
-                // Generate a JWT token
-                const token = jwt.sign({ userid }, 'secret123', { expiresIn: '1h' }); 
+                // Generate a JWT token with the user's role
+                const token = jwt.sign({ userid, role: user.role }, 'secret123', { expiresIn: '1h' }); 
 
                 // Send the token as JSON response
                 res.status(200).json({ token });
-              } else {
+            } else {
                 res.status(401).json({ error: 'Invalid credentials' });
                 return; // Exit the handler if credentials are invalid
-              }
+            }
         } catch (error) {
             res.status(500).json({ error: "Internal server error" });
             return; // Exit the handler on internal server error

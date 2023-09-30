@@ -7,6 +7,7 @@ import Image from 'next/image';
 import jlc from '../../../../public/jlc.png';
 import { useAuth } from '../../../components/Customers/useAuth';
 import LogoutButton from "../../../components/Customers/LogoutButton";
+import jwt from 'jsonwebtoken';
 
 
 
@@ -15,6 +16,18 @@ const Landing = () => {
     useAuth();
     const [customer, setCustomer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [role, setRole] = useState('');
+
+    useEffect(() => {
+        // Get the user's role from the JWT token in local storage
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwt.decode(token);
+            if (decodedToken) {
+                setRole(decodedToken.role);
+            }
+        }
+    }, []);
 
 
     const router = useRouter();
@@ -449,470 +462,667 @@ const Landing = () => {
 
 
         return (
-            <div className='pt-10'>
+            <div>
+                {role === 'admin' && (
+                    <div className='pt-10'>
 
-                <div className="w-full px-4 md:px-8">
-                    <div className="items-start justify-between md:flex">
-                        <div>
-                            <Image
-                                src={jlc}
-                                width={150}
-                                height={200}
-                                className='absolute md:ml-6 md:w-52 w-24 ml-36 top-5'
-                                alt="Logo"
-                            />
-                        </div>
-                        <div className="mt-3 mb-3 md:mt-0 print:hidden">
-                            <a
-                                className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm print:hidden"
-                                onClick={handleAddDataClick}
-                            >
-                                Add Data
-                            </a>
-                            <button
-                                onClick={handlePrint}
-                                className="bg-red-600 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
-                            >
-                                Print Table
-                            </button>
-                            <LogoutButton />
-                            {/* <button
+                        <div className="w-full px-4 md:px-8">
+                            <div className="items-start justify-between md:flex">
+                                <div>
+                                    <Image
+                                        src={jlc}
+                                        width={150}
+                                        height={200}
+                                        className='absolute md:ml-6 md:w-52 w-24 ml-36 top-5'
+                                        alt="Logo"
+                                    />
+                                </div>
+                                <div className="mt-3 mb-3 md:mt-0 print:hidden">
+                                    <a
+                                        className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm print:hidden"
+                                        onClick={handleAddDataClick}
+                                    >
+                                        Add Data
+                                    </a>
+                                    <button
+                                        onClick={handlePrint}
+                                        className="bg-red-600 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
+                                    >
+                                        Print Table
+                                    </button>
+                                    <LogoutButton />
+                                    {/* <button
                                 onClick={pdfdownload}
                                 className="bg-green-800 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
                             >
                                 Download as PDF
                             </button> */}
-                            <ExcelGenerator tableItems={customer.data} />
+                                    <ExcelGenerator tableItems={customer.data} />
+                                </div>
+
+                            </div>
+                            <table className="border-2 border-black mx-auto">
+                                <tbody>
+                                    <tr>
+                                        <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
+                                            <div className='text-6xl font-bold font-serif'>
+                                                JAI LIME & CHEMICAL
+                                            </div>
+                                            <div className='text-xl'>
+                                                H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                            </div>
+                                            <div className='text-xl'>
+                                                Mo. : 99508 35585, 85296 22695
+                                            </div>
+                                            <div className='text-xl'>
+                                                GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="max-w-lg mt-10">
+                                <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
+                                    {customer.customername}&apos;s खाता
+                                </h3>
+                            </div>
+                            <div className="mt-10 print:hidden">
+                                <input
+                                    type="text"
+                                    placeholder="Search by S.NO. / Driver Name / Date"
+                                    value={searchQuery}
+                                    onChange={event => setSearchQuery(event.target.value)}
+                                    className="border p-2 rounded-md w-full"
+                                />
+                            </div>
+                            <div className="mt-2 font-medium print:hidden">
+                                Old Due Balance: {initialBalance.toLocaleString('en-IN')}
+                            </div>
+
+                            <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto mb-10">
+                                <table className="w-full table-auto text-sm text-left">
+                                    <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                                        <tr className='divide-x'>
+                                            <th className="py-3 px-2 text-2xl print:hidden">NO.</th>
+                                            <th className="py-3 px-2 text-2xl">S. NO.</th>
+                                            <th className="py-3 px-6 text-2xl">Sales Date</th>
+                                            <th className="py-3 px-2 text-2xl">Driver Name</th>
+                                            <th className="py-3 px-6 text-2xl">Auto No.</th>
+                                            <th className="py-3 px-6 text-2xl">Lime (A)</th>
+                                            <th className="py-3 px-6 text-2xl">Lime (W)</th>
+                                            <th className="py-3 px-6 text-2xl">Lime (B)</th>
+                                            <th className="py-3 px-6 text-2xl">Lime (OFF_W)</th>
+                                            <th className="py-3 px-6 text-2xl">Jhiki (झिकीं)</th>
+                                            <th className="py-3 px-6 text-2xl">Aaras (आरस)</th>
+                                            <th className="py-3 px-6 text-2xl">Site Address</th>
+                                            <th className="py-3 px-6 text-2xl">Amount</th>
+                                            <th className="py-3 px-2 text-2xl">Labour Charge</th>
+                                            <th className="py-3 px-2 text-2xl">Auto Charge</th>
+                                            <th className="py-3 px-2 text-2xl">Extra Charges</th>
+                                            <th className="py-3 px-6 text-2xl">DR (बकाया)</th>
+                                            <th className="py-3 px-2 text-2xl">CR (जमा)</th>
+                                            <th className="py-3 px-6 text-2xl">Balance (शेष)</th>
+                                            <th className="py-3 px-6 text-2xl print:hidden">Generate Bill</th>
+                                            <th className="py-3 px-6 print:hidden "></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-gray-600 divide-y">
+
+                                        {customer && customer.data && paginatedTableItems
+                                            ? paginatedTableItems.map((item, idx) => (
+                                                <tr key={idx} className="divide-x">
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl print:hidden">{idx + 1}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl"> {item.salesdate === '' ? '-' : item.salesdate}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.drivername === '' ? '-' : item.drivername}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.autono === '' ? '-' : item.autono}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.Limea ? (
+                                                            `${item.Limea} X ${item.LimeaPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.Limew ? (
+                                                            `${item.Limew} X ${item.LimewPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.Limeb ? (
+                                                            `${item.Limeb} X ${item.LimebPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.Limeoffw ? (
+                                                            `${item.Limeoffw} X ${item.LimeoffwPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.jhiki ? (
+                                                            `${item.jhiki} X ${item.jhikiPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.rs ? (
+                                                            `${item.rs} KG X ${item.rsPrice}`
+                                                        ) : '-'}
+                                                    </td>
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.siteaddress === '' ? '-' : item.siteaddress}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
+                                                    </td>
+
+
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.dr}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
+                                                    </td>
+
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                        {item.balance < 0
+                                                            ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
+                                                            : formatDecimalWithCommasAndDecimals(item.balance)}
+                                                    </td>
+
+                                                    <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
+                                                        <button
+                                                            onClick={() => handleViewData(customer.customerid, item._id)}
+                                                            className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg font-bold"
+                                                        >
+                                                            Generate Bill
+                                                        </button>
+                                                    </td>
+                                                    <td className="text-right px-6 whitespace-nowrap print:hidden font-bold ">
+                                                        <button
+                                                            onClick={() => handleEditClick(idx, item._id)} // Pass both idx and item._id
+                                                            className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                                        >
+                                                            Edit
+                                                        </button>
+
+
+                                                        <button
+                                                            onClick={() => handleDeleteClick(idx, item._id)} // Call the delete handler with item._id
+                                                            className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )) : null}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div className='text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
+
+
+                        </div>
+                        {isAddingData && (
+                            <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+                                <div className="bg-white p-4 rounded-xl">
+                                    <h2 className="text-xl font-semibold mb-4">Add New Data</h2>
+                                    <form onSubmit={handleFormSubmit}>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <input
+                                                type="text"
+                                                name="numberid"
+                                                placeholder="S. NO."
+                                                value={newData.numberid}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="salesdate"
+                                                placeholder="Sales Date"
+                                                value={newData.salesdate}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="drivername"
+                                                placeholder="Driver Name"
+                                                value={newData.drivername}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="autono"
+                                                placeholder="Auto No."
+                                                value={newData.autono}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="km"
+                                                placeholder="K.M."
+                                                value={newData.km}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    name="Limea"
+                                                    placeholder="Lime (A)"
+                                                    value={newData.Limea}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-20"
+                                                />
+                                                <span className="text-gray-600 mx-2">x</span>
+                                                <input
+                                                    type="text"
+                                                    name="LimeaPrice"
+                                                    placeholder="Price"
+                                                    value={newData.LimeaPrice}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-16"
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    name="Limew"
+                                                    placeholder="Lime (W)"
+                                                    value={newData.Limew}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-20"
+                                                />
+                                                <span className="text-gray-600 mx-2">x</span>
+                                                <input
+                                                    type="text"
+                                                    name="LimewPrice"
+                                                    placeholder="Price"
+                                                    value={newData.LimewPrice}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-16"
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    name="Limeb"
+                                                    placeholder="Lime (B)"
+                                                    value={newData.Limeb}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-20"
+                                                />
+                                                <span className="text-gray-600 mx-2">x</span>
+                                                <input
+                                                    type="text"
+                                                    name="LimebPrice"
+                                                    placeholder="Price"
+                                                    value={newData.LimebPrice}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-16"
+                                                />
+                                            </div>
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    name="Limeoffw"
+                                                    placeholder="Lime (OFF_W)"
+                                                    value={newData.Limeoffw}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-20"
+                                                />
+                                                <span className="text-gray-600 mx-2">x</span>
+                                                <input
+                                                    type="text"
+                                                    name="LimeoffwPrice"
+                                                    placeholder="Price"
+                                                    value={newData.LimeoffwPrice}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-16"
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    name="jhiki"
+                                                    placeholder="Jhiki"
+                                                    value={newData.jhiki}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-20"
+                                                />
+                                                <span className="text-gray-600 mx-2">x</span>
+                                                <input
+                                                    type="text"
+                                                    name="jhikiPrice"
+                                                    placeholder="Price"
+                                                    value={newData.jhikiPrice}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-16"
+                                                />
+                                            </div>
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    name="rs"
+                                                    placeholder="Aaras"
+                                                    value={newData.rs}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-20"
+                                                />
+                                                <span className="text-gray-600 mx-2">x</span>
+                                                <input
+                                                    type="text"
+                                                    name="rsPrice"
+                                                    placeholder="Price"
+                                                    value={newData.rsPrice}
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md md:w-52 w-16"
+                                                />
+                                            </div>
+                                            <input
+                                                type="text"
+                                                name="siteaddress"
+                                                placeholder="Site Address"
+                                                value={newData.siteaddress}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="labourcharge"
+                                                placeholder="Labour Charge"
+                                                value={newData.labourcharge}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="autocharge"
+                                                placeholder="Auto Charge"
+                                                value={newData.autocharge}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="extracharge"
+                                                placeholder="Extra Charge"
+                                                value={newData.extracharge}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="cr"
+                                                placeholder="CR"
+                                                value={newData.cr}
+                                                onChange={handleFormChange}
+                                                className="border p-2 rounded-md"
+                                            />
+                                        </div>
+                                        <div className="flex mt-4">
+                                            <button type="submit" className='bg-indigo-600 p-3 px-6 rounded mr-4'>{editingIndex !== null ? 'Update' : 'Add'}</button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsAddingData(false)}
+                                                className=" text-black bg-red-600 p-3 px-6 rounded mr-4"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+
+                                    </form>
+
+
+
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex justify-center space-x-2 print:hidden">
+                            <button
+                                onClick={goToFirstPage}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                            >
+                                First Page
+                            </button>
+                            <button
+                                onClick={prevPage}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                            >
+                                Previous Page
+                            </button>
+                            <span className="text-gray-600">
+                                Page {currentPage} of {totalPages}
+                            </span>
+                            <button
+                                onClick={nextPage}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                            >
+                                Next Page
+                            </button>
+                            <button
+                                onClick={goToLastPage}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                            >
+                                Last Page
+                            </button>
                         </div>
 
-                    </div>
-                    <table className="border-2 border-black mx-auto">
-                        <tbody>
-                            <tr>
-                                <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
-                                    <div className='text-6xl font-bold font-serif'>
-                                        JAI LIME & CHEMICAL
-                                    </div>
-                                    <div className='text-xl'>
-                                        H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
-                                    </div>
-                                    <div className='text-xl'>
-                                        Mo. : 99508 35585, 85296 22695
-                                    </div>
-                                    <div className='text-xl'>
-                                        GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className="max-w-lg">
-                        <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
-                            {customer.customername}&apos;s खाता
-                        </h3>
-                    </div>
-                    <div className="mt-10 print:hidden">
-                        <input
-                            type="text"
-                            placeholder="Search by S.NO. / Driver Name / Date"
-                            value={searchQuery}
-                            onChange={event => setSearchQuery(event.target.value)}
-                            className="border p-2 rounded-md w-full"
-                        />
-                    </div>
-                    <div className="mt-2 font-medium print:hidden">
-                        Old Due Balance: {initialBalance.toLocaleString('en-IN')}
-                    </div>
 
-                    <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto mb-10">
-                        <table className="w-full table-auto text-sm text-left">
-                            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                                <tr className='divide-x'>
-                                    <th className="py-3 px-2 text-2xl print:hidden">NO.</th>
-                                    <th className="py-3 px-2 text-2xl">S. NO.</th>
-                                    <th className="py-3 px-6 text-2xl">Sales Date</th>
-                                    <th className="py-3 px-2 text-2xl">Driver Name</th>
-                                    <th className="py-3 px-6 text-2xl">Auto No.</th>
-                                    <th className="py-3 px-6 text-2xl">Lime (A)</th>
-                                    <th className="py-3 px-6 text-2xl">Lime (W)</th>
-                                    <th className="py-3 px-6 text-2xl">Lime (B)</th>
-                                    <th className="py-3 px-6 text-2xl">Lime (OFF_W)</th>
-                                    <th className="py-3 px-6 text-2xl">Jhiki (झिकीं)</th>
-                                    <th className="py-3 px-6 text-2xl">Aaras (आरस)</th>
-                                    <th className="py-3 px-6 text-2xl">Site Address</th>
-                                    <th className="py-3 px-6 text-2xl">Amount</th>
-                                    <th className="py-3 px-2 text-2xl">Labour Charge</th>
-                                    <th className="py-3 px-2 text-2xl">Auto Charge</th>
-                                    <th className="py-3 px-2 text-2xl">Extra Charges</th>
-                                    <th className="py-3 px-6 text-2xl">DR (बकाया)</th>
-                                    <th className="py-3 px-2 text-2xl">CR (जमा)</th>
-                                    <th className="py-3 px-6 text-2xl">Balance (शेष)</th>
-                                    <th className="py-3 px-6 text-2xl print:hidden">Generate Bill</th>
-                                    <th className="py-3 px-6 print:hidden "></th>
-                                </tr>
-                            </thead>
-                            <tbody className="text-gray-600 divide-y">
-
-                                {customer && customer.data && paginatedTableItems
-                                    ? paginatedTableItems.map((item, idx) => (
-                                        <tr key={idx} className="divide-x">
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl print:hidden">{idx + 1}</td>
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl"> {item.salesdate === '' ? '-' : item.salesdate}</td>
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.drivername === '' ? '-' : item.drivername}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.autono === '' ? '-' : item.autono}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.Limea ? (
-                                                    `${item.Limea} X ${item.LimeaPrice}`
-                                                ) : '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.Limew ? (
-                                                    `${item.Limew} X ${item.LimewPrice}`
-                                                ) : '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.Limeb ? (
-                                                    `${item.Limeb} X ${item.LimebPrice}`
-                                                ) : '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.Limeoffw ? (
-                                                    `${item.Limeoffw} X ${item.LimeoffwPrice}`
-                                                ) : '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.jhiki ? (
-                                                    `${item.jhiki} X ${item.jhikiPrice}`
-                                                ) : '-'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.rs ? (
-                                                    `${item.rs} KG X ${item.rsPrice}`
-                                                ) : '-'}
-                                            </td>
-
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.siteaddress === '' ? '-' : item.siteaddress}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
-                                            </td>
-
-
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
-
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.dr}</td>
-                                            <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
-                                            </td>
-
-
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
-                                                {item.balance < 0
-                                                    ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
-                                                    : formatDecimalWithCommasAndDecimals(item.balance)}
-                                            </td>
-
-                                            <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
-                                                <button
-                                                    onClick={() => handleViewData(customer.customerid, item._id)}
-                                                    className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg font-bold"
-                                                >
-                                                    Generate Bill
-                                                </button>
-                                            </td>
-                                            <td className="text-right px-6 whitespace-nowrap print:hidden font-bold ">
-                                                <button
-                                                    onClick={() => handleEditClick(idx, item._id)} // Pass both idx and item._id
-                                                    className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                >
-                                                    Edit
-                                                </button>
-
-
-                                                <button
-                                                    onClick={() => handleDeleteClick(idx, item._id)} // Call the delete handler with item._id
-                                                    className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )) : null}
-                            </tbody>
-                        </table>
-
-
-                    </div>
-                    <div className='text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
-
-
-                </div>
-                {isAddingData && (
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-white p-4 rounded-xl">
-                            <h2 className="text-xl font-semibold mb-4">Add New Data</h2>
-                            <form onSubmit={handleFormSubmit}>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <input
-                                        type="text"
-                                        name="numberid"
-                                        placeholder="S. NO."
-                                        value={newData.numberid}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="salesdate"
-                                        placeholder="Sales Date"
-                                        value={newData.salesdate}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="drivername"
-                                        placeholder="Driver Name"
-                                        value={newData.drivername}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="autono"
-                                        placeholder="Auto No."
-                                        value={newData.autono}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="km"
-                                        placeholder="K.M."
-                                        value={newData.km}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            name="Limea"
-                                            placeholder="Lime (A)"
-                                            value={newData.Limea}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-20"
-                                        />
-                                        <span className="text-gray-600 mx-2">x</span>
-                                        <input
-                                            type="text"
-                                            name="LimeaPrice"
-                                            placeholder="Price"
-                                            value={newData.LimeaPrice}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-16"
-                                        />
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            name="Limew"
-                                            placeholder="Lime (W)"
-                                            value={newData.Limew}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-20"
-                                        />
-                                        <span className="text-gray-600 mx-2">x</span>
-                                        <input
-                                            type="text"
-                                            name="LimewPrice"
-                                            placeholder="Price"
-                                            value={newData.LimewPrice}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-16"
-                                        />
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            name="Limeb"
-                                            placeholder="Lime (B)"
-                                            value={newData.Limeb}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-20"
-                                        />
-                                        <span className="text-gray-600 mx-2">x</span>
-                                        <input
-                                            type="text"
-                                            name="LimebPrice"
-                                            placeholder="Price"
-                                            value={newData.LimebPrice}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-16"
-                                        />
-                                    </div>
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            name="Limeoffw"
-                                            placeholder="Lime (OFF_W)"
-                                            value={newData.Limeoffw}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-20"
-                                        />
-                                        <span className="text-gray-600 mx-2">x</span>
-                                        <input
-                                            type="text"
-                                            name="LimeoffwPrice"
-                                            placeholder="Price"
-                                            value={newData.LimeoffwPrice}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-16"
-                                        />
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            name="jhiki"
-                                            placeholder="Jhiki"
-                                            value={newData.jhiki}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-20"
-                                        />
-                                        <span className="text-gray-600 mx-2">x</span>
-                                        <input
-                                            type="text"
-                                            name="jhikiPrice"
-                                            placeholder="Price"
-                                            value={newData.jhikiPrice}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-16"
-                                        />
-                                    </div>
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            name="rs"
-                                            placeholder="Aaras"
-                                            value={newData.rs}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-20"
-                                        />
-                                        <span className="text-gray-600 mx-2">x</span>
-                                        <input
-                                            type="text"
-                                            name="rsPrice"
-                                            placeholder="Price"
-                                            value={newData.rsPrice}
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md md:w-52 w-16"
-                                        />
-                                    </div>
-                                    <input
-                                        type="text"
-                                        name="siteaddress"
-                                        placeholder="Site Address"
-                                        value={newData.siteaddress}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="labourcharge"
-                                        placeholder="Labour Charge"
-                                        value={newData.labourcharge}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="autocharge"
-                                        placeholder="Auto Charge"
-                                        value={newData.autocharge}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="extracharge"
-                                        placeholder="Extra Charge"
-                                        value={newData.extracharge}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="cr"
-                                        placeholder="CR"
-                                        value={newData.cr}
-                                        onChange={handleFormChange}
-                                        className="border p-2 rounded-md"
-                                    />
-                                </div>
-                                <div className="flex mt-4">
-                                    <button type="submit" className='bg-indigo-600 p-3 px-6 rounded mr-4'>{editingIndex !== null ? 'Update' : 'Add'}</button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsAddingData(false)}
-                                        className=" text-black bg-red-600 p-3 px-6 rounded mr-4"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-
-                            </form>
-
-
-
+                        <div className="mt-10 py-4 border-t md:text-center">
+                            <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
                         </div>
                     </div>
                 )}
-                <div className="flex justify-center space-x-2 print:hidden">
-                    <button
-                        onClick={goToFirstPage}
-                        disabled={currentPage === 1}
-                        className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
-                    >
-                        First Page
-                    </button>
-                    <button
-                        onClick={prevPage}
-                        disabled={currentPage === 1}
-                        className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
-                    >
-                        Previous Page
-                    </button>
-                    <span className="text-gray-600">
-                        Page {currentPage} of {totalPages}
-                    </span>
-                    <button
-                        onClick={nextPage}
-                        disabled={currentPage === totalPages}
-                        className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
-                    >
-                        Next Page
-                    </button>
-                    <button
-                        onClick={goToLastPage}
-                        disabled={currentPage === totalPages}
-                        className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
-                    >
-                        Last Page
-                    </button>
-                </div>
 
 
-                <div className="mt-10 py-4 border-t md:text-center">
-                    <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
-                </div>
+
+
+
+
+
+
+
+
+                {role === 'user' && (
+                    <div>
+                        <div className='pt-10'>
+
+                            <div className="w-full px-4 md:px-8">
+                                <div className="items-start justify-between md:flex">
+                                    <div>
+                                        <Image
+                                            src={jlc}
+                                            width={150}
+                                            height={200}
+                                            className='absolute md:ml-6 md:w-52 w-24 ml-36 top-5'
+                                            alt="Logo"
+                                        />
+                                    </div>
+                                </div>
+                                <div className='justify-end flex'><LogoutButton /></div>
+                                <table className="border-2 border-black mx-auto mt-40">
+                                    <tbody>
+                                        <tr>
+                                            <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
+                                                <div className='text-6xl font-bold font-serif'>
+                                                    JAI LIME & CHEMICAL
+                                                </div>
+                                                <div className='text-xl'>
+                                                    H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                                </div>
+                                                <div className='text-xl'>
+                                                    Mo. : 99508 35585, 85296 22695
+                                                </div>
+                                                <div className='text-xl'>
+                                                    GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className="max-w-lg mt-10">
+                                    <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
+                                        {customer.customername}&apos;s खाता
+                                    </h3>
+                                </div>
+                                <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto mb-10">
+                                    <table className="w-full table-auto text-sm text-left">
+                                        <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                                            <tr className='divide-x'>
+                                                <th className="py-3 px-2 text-2xl print:hidden">NO.</th>
+                                                <th className="py-3 px-2 text-2xl">S. NO.</th>
+                                                <th className="py-3 px-6 text-2xl">Sales Date</th>
+                                                <th className="py-3 px-2 text-2xl">Driver Name</th>
+                                                <th className="py-3 px-6 text-2xl">Auto No.</th>
+                                                <th className="py-3 px-6 text-2xl">Lime (A)</th>
+                                                <th className="py-3 px-6 text-2xl">Lime (W)</th>
+                                                <th className="py-3 px-6 text-2xl">Lime (B)</th>
+                                                <th className="py-3 px-6 text-2xl">Lime (OFF_W)</th>
+                                                <th className="py-3 px-6 text-2xl">Jhiki (झिकीं)</th>
+                                                <th className="py-3 px-6 text-2xl">Aaras (आरस)</th>
+                                                <th className="py-3 px-6 text-2xl">Site Address</th>
+                                                <th className="py-3 px-6 text-2xl">Amount</th>
+                                                <th className="py-3 px-2 text-2xl">Labour Charge</th>
+                                                <th className="py-3 px-2 text-2xl">Auto Charge</th>
+                                                <th className="py-3 px-2 text-2xl">Extra Charges</th>
+                                                <th className="py-3 px-6 text-2xl">DR (बकाया)</th>
+                                                <th className="py-3 px-2 text-2xl">CR (जमा)</th>
+                                                <th className="py-3 px-6 text-2xl">Balance (शेष)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-gray-600 divide-y">
+
+                                            {customer && customer.data && paginatedTableItems
+                                                ? paginatedTableItems.map((item, idx) => (
+                                                    <tr key={idx} className="divide-x">
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl print:hidden">{idx + 1}</td>
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl"> {item.salesdate === '' ? '-' : item.salesdate}</td>
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.drivername === '' ? '-' : item.drivername}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.autono === '' ? '-' : item.autono}</td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.Limea ? (
+                                                                `${item.Limea} X ${item.LimeaPrice}`
+                                                            ) : '-'}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.Limew ? (
+                                                                `${item.Limew} X ${item.LimewPrice}`
+                                                            ) : '-'}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.Limeb ? (
+                                                                `${item.Limeb} X ${item.LimebPrice}`
+                                                            ) : '-'}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.Limeoffw ? (
+                                                                `${item.Limeoffw} X ${item.LimeoffwPrice}`
+                                                            ) : '-'}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.jhiki ? (
+                                                                `${item.jhiki} X ${item.jhikiPrice}`
+                                                            ) : '-'}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.rs ? (
+                                                                `${item.rs} KG X ${item.rsPrice}`
+                                                            ) : '-'}
+                                                        </td>
+
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.siteaddress === '' ? '-' : item.siteaddress}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
+                                                        </td>
+
+
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
+
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.dr}</td>
+                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
+                                                        </td>
+
+
+                                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                            {item.balance < 0
+                                                                ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
+                                                                : formatDecimalWithCommasAndDecimals(item.balance)}
+                                                        </td>
+                                                    </tr>
+                                                )) : null}
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                                <div className='text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
+                            </div>
+                            <div className="flex justify-center space-x-2 print:hidden">
+                                <button
+                                    onClick={goToFirstPage}
+                                    disabled={currentPage === 1}
+                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                >
+                                    First Page
+                                </button>
+                                <button
+                                    onClick={prevPage}
+                                    disabled={currentPage === 1}
+                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                >
+                                    Previous Page
+                                </button>
+                                <span className="text-gray-600">
+                                    Page {currentPage} of {totalPages}
+                                </span>
+                                <button
+                                    onClick={nextPage}
+                                    disabled={currentPage === totalPages}
+                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                >
+                                    Next Page
+                                </button>
+                                <button
+                                    onClick={goToLastPage}
+                                    disabled={currentPage === totalPages}
+                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                >
+                                    Last Page
+                                </button>
+                            </div>
+
+
+                            <div className="mt-10 py-4 border-t md:text-center">
+                                <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     };

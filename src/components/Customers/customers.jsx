@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { useAuth } from './useAuth';
 import LogoutButton from "./LogoutButton";
+import jwt from 'jsonwebtoken';
 
 
 
@@ -15,16 +16,28 @@ const Customers = ({ customer }) => {
     const [isAddingData, setIsAddingData] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [userid, setUserid] = useState('');
-    
+    const [role, setRole] = useState('');
+
+    useEffect(() => {
+        // Get the user's role from the JWT token in local storage
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwt.decode(token);
+            if (decodedToken) {
+                setRole(decodedToken.role);
+            }
+        }
+    }, []);
+
 
     useEffect(() => {
         // Get the userid from local storage
         const storedUserid = localStorage.getItem('userid');
-    
+
         if (storedUserid) {
-          setUserid(storedUserid);
+            setUserid(storedUserid);
         }
-      }, []);
+    }, []);
 
 
 
@@ -53,43 +66,43 @@ const Customers = ({ customer }) => {
 
     const calculateBalanceForCustomer = (customer) => {
         let balance = parseFloat(customer.initialbalance);
-    
+
         for (const entry of customer.data) {
             const dr = parseFloat(entry.dr);
             const cr = parseFloat(entry.cr) || 0; // Use 0 if cr is empty or NaN
-    
+
             balance += dr - cr;
         }
         const formattedBalance = balance.toLocaleString('en-IN'); // 'en-IN' for the Indian numbering format with commas
-    
+
         if (balance < 0) {
             return `${Math.abs(formattedBalance).toFixed(2)} ADV`;
         }
-    
+
         return formattedBalance;
     };
-    
-      
 
-      const calculateTotalBalance = (customerData) => {
+
+
+    const calculateTotalBalance = (customerData) => {
         let totalBalance = 0;
-      
-        customerData.customer.forEach((customer) => {
-          totalBalance += parseFloat(customer.initialbalance);
-          customer.data.forEach((entry) => {
-            const dr = parseFloat(entry.dr);
-            const cr = parseFloat(entry.cr) || 0; // Use 0 if cr is empty or NaN
-            totalBalance += dr - cr;
-          });
-        });
-      
-        return totalBalance.toFixed(2); // Round to 2 decimal places
-      };
 
-      const handlePrint = () => {
+        customerData.customer.forEach((customer) => {
+            totalBalance += parseFloat(customer.initialbalance);
+            customer.data.forEach((entry) => {
+                const dr = parseFloat(entry.dr);
+                const cr = parseFloat(entry.cr) || 0; // Use 0 if cr is empty or NaN
+                totalBalance += dr - cr;
+            });
+        });
+
+        return totalBalance.toFixed(2); // Round to 2 decimal places
+    };
+
+    const handlePrint = () => {
         window.print();
     };
-      
+
 
 
 
@@ -327,276 +340,374 @@ const Customers = ({ customer }) => {
 
     return (
         <div>
-            {isLoading ? ( // Display loading indicator if isLoading is true
-                <div className="flex justify-center items-center h-screen">
-                    <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
-                </div>
-            ) : (
-                <div className='pt-10 pb-10'>
-
-                    <div className="w-full px-4 md:px-8">
-                        <div className="items-start justify-between md:flex">
-                            <div className="max-w-lg ">
-                                <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                                <div>Welcome, {userid}</div>
-                                    All Customers
-                                </h3>
-                            </div>
-                            <div className="mt-3 mb-3 md:mt-0 print:hidden">
-                                <a
-                                    className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
-                                    onClick={handleAddDataClick}
-                                >
-                                    Add Customer
-                                </a>
-                                <button
-                                onClick={handlePrint}
-                                className="bg-red-600 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
-                            >
-                                Print Table
-                            </button>
-                            <LogoutButton />
-                            </div>
+            {role === 'admin' && (
+                <div>
+                    {isLoading ? ( // Display loading indicator if isLoading is true
+                        <div className="flex justify-center items-center h-screen">
+                            <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
                         </div>
-                        <table className="border-2 border-black mx-auto">
-                            <tbody>
-                                <tr>
-                                    <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
-                                        <div className='text-5xl font-bold font-serif'>
-                                            JAI LIME & CHEMICAL
-                                        </div>
-                                        <div>
-                                            H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
-                                        </div>
-                                        <div>
-                                            Mo. : 99508 35585, 85296 22695
-                                        </div>
-                                        <div>
-                                            GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div className="mt-10">
-                            <input
-                                type="text"
-                                placeholder="Search by S.NO. or Customers Name"
-                                value={searchQuery}
-                                onChange={event => setSearchQuery(event.target.value)}
-                                onClick={handleSearchClick} // Add this line
-                                className="border p-2 rounded-md w-full print:hidden"
-                            />
-                        </div>
-                        <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
-                            <table className="w-full table-auto text-sm text-left">
-                                <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                                    <tr>
-                                        <th className="py-3 px-6">S. NO.</th>
-                                        <th className="py-3 px-6">Customers Name</th>
-                                        <th className="py-3 px-6">Contact No.</th>
-                                        <th className="py-3 px-6 print:hidden">View Data</th>
-                                        <th className="py-3 px-6">Last Entry Date</th>
-                                        <th className="py-3 px-6">Balance</th>
-                                        <th className="py-3 px-6 print:hidden"></th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-gray-600 divide-y">
-                                    {displayedCustomers.map((item, _id) => (
-                                        <tr key={_id} className="divide-x">
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customerid}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
+                    ) : (
+                        <div className='pt-10 pb-10'>
 
-                                            <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
-                                                <button
-                                                    onClick={() => handleViewData(item.customerid)}
-                                                    className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
-                                                >
-                                                    View Data
-                                                </button>
-
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold">
-                                                {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
-                                            
-
-
-                                            <td className="text-right px-6 whitespace-nowrap print:hidden">
-                                                {isEditing && editingIndex && editingIndex.pageIndex === pageNumber && editingIndex.indexWithinPage === _id ? (
-                                                    <>
-                                                        <input
-                                                            type="text"
-                                                            name="customername"
-                                                            placeholder='Customer Name'
-                                                            value={newData.customername}
-                                                            onChange={handleFormChange}
-                                                            className="border p-2 rounded-md"
-                                                        />
-                                                        <input
-                                                            type="tel"
-                                                            name="phoneno"
-                                                            placeholder='Phone No'
-                                                            value={newData.phoneno}
-                                                            onChange={handleFormChange}
-                                                            className="border p-2 rounded-md"
-                                                        />
-                                                        <input
-                                                            type="text"
-                                                            name="initialbalance"
-                                                            placeholder='Opening Balance'
-                                                            value={newData.initialbalance}
-                                                            onChange={handleFormChange}
-                                                            className="border p-2 rounded-md"
-                                                        />
-                                                        <button
-                                                            onClick={handleSaveChanges} // Use the handler directly here
-                                                            className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        >
-                                                            Save
-                                                        </button>
-                                                        <button
-                                                            onClick={() => {
-                                                                setIsEditing(false);
-                                                                setEditingIndex(null);
-                                                                setNewData({
-                                                                    customerid: '',
-                                                                    customername: '',
-                                                                    phoneno: '',
-                                                                    phoneno2: '',
-                                                                    initialbalance: '',
-                                                                });
-                                                            }}
-                                                            className="ml-2 text-gray-600 hover:text-gray-800"
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <button
-                                                            onClick={() => handleEditClick(pageNumber, _id)}
-                                                            className="print:hidden py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        >
-                                                            Edit
-                                                        </button>
-
-                                                        <button
-                                                            onClick={() => handleDeleteClick(item.customerid)}
-                                                            className="print:hidden py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </td>
-
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        {isLastPage && (
-                            <div className="mt-4">
-                                <h2 className="text-xl font-semibold mb-2">Total Balance of All Customers:</h2>
-                                <div className="text-2xl font-bold">{calculateTotalBalance(customerData)} INR</div>
-                            </div>
-                        )}
-                        <div className="mt-4 print:hidden">
-                            <button
-                                onClick={goToFirstPage}
-                                className="mr-2 px-2 py-1 border rounded border-gray-300 hover:bg-blue-500 hover:text-white"
-                            >
-                                First Page
-                            </button>
-                            <button
-                                onClick={goToLastPage}
-                                className="ml-2 px-2 py-1 border rounded border-gray-300 hover:bg-blue-500 hover:text-white"
-                            >
-                                Last Page
-                            </button>
-                            <ReactPaginate
-                                previousLabel={'Previous'}
-                                nextLabel={'Next'}
-                                breakLabel={'...'}
-                                pageCount={pageCount}
-                                marginPagesDisplayed={2}
-                                pageRangeDisplayed={5}
-                                onPageChange={handlePageClick}
-                                containerClassName={'flex justify-center mt-4'}
-                                pageClassName={'mx-2'}
-                                activeClassName={'bg-blue-500 border rounded p-2 text-white'}
-                                previousClassName={'px-2 py-1 border rounded border-gray-300'}
-                                nextClassName={'px-2 py-1 border rounded border-gray-300'}
-                                forcePage={pageNumber} // Set the current page from state
-                            />
-
-                        </div>
-
-                    </div>
-
-                    {isAddingData && (
-                        <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-                            <div className="bg-white p-6 rounded-lg">
-                                <h2 className="text-xl font-semibold mb-4">Add New Customer</h2>
-                                <form onSubmit={handleFormSubmit}>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <input
-                                            type="text"
-                                            name="customername"
-                                            placeholder="Customers Name"
-                                            value={newData.customername} // Corrected value attribute
-                                            onChange={handleFormChange}
-                                            className="border p-2 rounded-md"
-                                        />
-                                        <input
-                                            type="tel"
-                                            name="phoneno"
-                                            placeholder="Contact No."
-                                            value={newData.phoneno} // Corrected value attribute
-                                            onChange={handleFormChange}
-                                            className="ml-2 border p-2 rounded-md"
-                                        />
-                                        <input
-                                            type="tel"
-                                            name="phoneno2"
-                                            placeholder="Alt. Contact No."
-                                            value={newData.phoneno2} // Corrected value attribute
-                                            onChange={handleFormChange}
-                                            className="ml-2 border p-2 rounded-md"
-                                        />
-                                        <input
-                                            type="tel"
-                                            name="initialbalance"
-                                            placeholder="Opening Balance"
-                                            value={newData.initialbalance} // Corrected value attribute
-                                            onChange={handleFormChange}
-                                            className="ml-2 border p-2 rounded-md"
-                                        />
+                            <div className="w-full px-4 md:px-8">
+                                <div className="items-start justify-between md:flex">
+                                    <div className="max-w-lg ">
+                                        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+                                            <div>Welcome, {userid}</div>
+                                            All Customers
+                                        </h3>
                                     </div>
-                                    <div className="flex mt-4">
-                                        <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded-lg">
-                                            Add
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => setIsAddingData(false)}
-                                            className="ml-2 text-gray-600 hover:text-gray-800"
+                                    <div className="mt-3 mb-3 md:mt-0 print:hidden">
+                                        <a
+                                            className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
+                                            onClick={handleAddDataClick}
                                         >
-                                            Cancel
+                                            Add Customer
+                                        </a>
+                                        <button
+                                            onClick={handlePrint}
+                                            className="bg-red-600 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
+                                        >
+                                            Print Table
                                         </button>
+                                        <LogoutButton />
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
-                </div>)}
+                                </div>
+                                <table className="border-2 border-black mx-auto">
+                                    <tbody>
+                                        <tr>
+                                            <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
+                                                <div className='text-5xl font-bold font-serif'>
+                                                    JAI LIME & CHEMICAL
+                                                </div>
+                                                <div>
+                                                    H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                                </div>
+                                                <div>
+                                                    Mo. : 99508 35585, 85296 22695
+                                                </div>
+                                                <div>
+                                                    GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className="mt-10">
+                                    <input
+                                        type="text"
+                                        placeholder="Search by S.NO. or Customers Name"
+                                        value={searchQuery}
+                                        onChange={event => setSearchQuery(event.target.value)}
+                                        onClick={handleSearchClick} // Add this line
+                                        className="border p-2 rounded-md w-full print:hidden"
+                                    />
+                                </div>
+                                <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+                                    <table className="w-full table-auto text-sm text-left">
+                                        <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                                            <tr>
+                                                <th className="py-3 px-6">S. NO.</th>
+                                                <th className="py-3 px-6">Customers Name</th>
+                                                <th className="py-3 px-6">Contact No.</th>
+                                                <th className="py-3 px-6 print:hidden">View Data</th>
+                                                <th className="py-3 px-6">Last Entry Date</th>
+                                                <th className="py-3 px-6">Balance</th>
+                                                <th className="py-3 px-6 print:hidden"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-gray-600 divide-y">
+                                            {displayedCustomers.map((item, _id) => (
+                                                <tr key={_id} className="divide-x">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customerid}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
 
-            <div className="mt-10 py-4 border-t md:text-center">
-                <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
-            </div>
+                                                    <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
+                                                        <button
+                                                            onClick={() => handleViewData(item.customerid)}
+                                                            className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
+                                                        >
+                                                            View Data
+                                                        </button>
+
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
+                                                        {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
+
+
+
+                                                    <td className="text-right px-6 whitespace-nowrap print:hidden">
+                                                        {isEditing && editingIndex && editingIndex.pageIndex === pageNumber && editingIndex.indexWithinPage === _id ? (
+                                                            <>
+                                                                <input
+                                                                    type="text"
+                                                                    name="customername"
+                                                                    placeholder='Customer Name'
+                                                                    value={newData.customername}
+                                                                    onChange={handleFormChange}
+                                                                    className="border p-2 rounded-md"
+                                                                />
+                                                                <input
+                                                                    type="tel"
+                                                                    name="phoneno"
+                                                                    placeholder='Phone No'
+                                                                    value={newData.phoneno}
+                                                                    onChange={handleFormChange}
+                                                                    className="border p-2 rounded-md"
+                                                                />
+                                                                <input
+                                                                    type="text"
+                                                                    name="initialbalance"
+                                                                    placeholder='Opening Balance'
+                                                                    value={newData.initialbalance}
+                                                                    onChange={handleFormChange}
+                                                                    className="border p-2 rounded-md"
+                                                                />
+                                                                <button
+                                                                    onClick={handleSaveChanges} // Use the handler directly here
+                                                                    className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                                                >
+                                                                    Save
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setIsEditing(false);
+                                                                        setEditingIndex(null);
+                                                                        setNewData({
+                                                                            customerid: '',
+                                                                            customername: '',
+                                                                            phoneno: '',
+                                                                            phoneno2: '',
+                                                                            initialbalance: '',
+                                                                        });
+                                                                    }}
+                                                                    className="ml-2 text-gray-600 hover:text-gray-800"
+                                                                >
+                                                                    Cancel
+                                                                </button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button
+                                                                    onClick={() => handleEditClick(pageNumber, _id)}
+                                                                    className="print:hidden py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                                                >
+                                                                    Edit
+                                                                </button>
+
+                                                                <button
+                                                                    onClick={() => handleDeleteClick(item.customerid)}
+                                                                    className="print:hidden py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </td>
+
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {isLastPage && (
+                                    <div className="mt-4">
+                                        <h2 className="text-xl font-semibold mb-2">Total Balance of All Customers:</h2>
+                                        <div className="text-2xl font-bold">{calculateTotalBalance(customerData)} INR</div>
+                                    </div>
+                                )}
+                                <div className="mt-4 print:hidden">
+                                    <button
+                                        onClick={goToFirstPage}
+                                        className="mr-2 px-2 py-1 border rounded border-gray-300 hover:bg-blue-500 hover:text-white"
+                                    >
+                                        First Page
+                                    </button>
+                                    <button
+                                        onClick={goToLastPage}
+                                        className="ml-2 px-2 py-1 border rounded border-gray-300 hover:bg-blue-500 hover:text-white"
+                                    >
+                                        Last Page
+                                    </button>
+                                    <ReactPaginate
+                                        previousLabel={'Previous'}
+                                        nextLabel={'Next'}
+                                        breakLabel={'...'}
+                                        pageCount={pageCount}
+                                        marginPagesDisplayed={2}
+                                        pageRangeDisplayed={5}
+                                        onPageChange={handlePageClick}
+                                        containerClassName={'flex justify-center mt-4'}
+                                        pageClassName={'mx-2'}
+                                        activeClassName={'bg-blue-500 border rounded p-2 text-white'}
+                                        previousClassName={'px-2 py-1 border rounded border-gray-300'}
+                                        nextClassName={'px-2 py-1 border rounded border-gray-300'}
+                                        forcePage={pageNumber} // Set the current page from state
+                                    />
+
+                                </div>
+
+                            </div>
+
+                            {isAddingData && (
+                                <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+                                    <div className="bg-white p-6 rounded-lg">
+                                        <h2 className="text-xl font-semibold mb-4">Add New Customer</h2>
+                                        <form onSubmit={handleFormSubmit}>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <input
+                                                    type="text"
+                                                    name="customername"
+                                                    placeholder="Customers Name"
+                                                    value={newData.customername} // Corrected value attribute
+                                                    onChange={handleFormChange}
+                                                    className="border p-2 rounded-md"
+                                                />
+                                                <input
+                                                    type="tel"
+                                                    name="phoneno"
+                                                    placeholder="Contact No."
+                                                    value={newData.phoneno} // Corrected value attribute
+                                                    onChange={handleFormChange}
+                                                    className="ml-2 border p-2 rounded-md"
+                                                />
+                                                <input
+                                                    type="tel"
+                                                    name="phoneno2"
+                                                    placeholder="Alt. Contact No."
+                                                    value={newData.phoneno2} // Corrected value attribute
+                                                    onChange={handleFormChange}
+                                                    className="ml-2 border p-2 rounded-md"
+                                                />
+                                                <input
+                                                    type="tel"
+                                                    name="initialbalance"
+                                                    placeholder="Opening Balance"
+                                                    value={newData.initialbalance} // Corrected value attribute
+                                                    onChange={handleFormChange}
+                                                    className="ml-2 border p-2 rounded-md"
+                                                />
+                                            </div>
+                                            <div className="flex mt-4">
+                                                <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded-lg">
+                                                    Add
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setIsAddingData(false)}
+                                                    className="ml-2 text-gray-600 hover:text-gray-800"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            )}
+                        </div>)}
+
+                    <div className="mt-10 py-4 border-t md:text-center">
+                        <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
+                    </div>
+                </div>
+            )}
+            {role === 'user' && (
+                <div>
+                    <div>
+                        {isLoading ? ( // Display loading indicator if isLoading is true
+                            <div className="flex justify-center items-center h-screen">
+                                <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
+                            </div>
+                        ) : (
+                            <div className='pt-10 pb-10'>
+
+                                <div className="w-full px-4 md:px-8">
+                                    <div className="items-start justify-between md:flex">
+                                        <div className="max-w-lg ">
+                                            <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+                                                <div>Welcome, {userid}</div>
+                                            </h3>
+                                        </div>
+                                        <div className="mt-3 mb-3 md:mt-0 print:hidden">
+                                            <LogoutButton />
+                                        </div>
+                                    </div>
+                                    <table className="border-2 border-black mx-auto">
+                                        <tbody>
+                                            <tr>
+                                                <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
+                                                    <div className='text-5xl font-bold font-serif'>
+                                                        JAI LIME & CHEMICAL
+                                                    </div>
+                                                    <div>
+                                                        H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                                    </div>
+                                                    <div>
+                                                        Mo. : 99508 35585, 85296 22695
+                                                    </div>
+                                                    <div>
+                                                        GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+                                        <table className="w-full table-auto text-sm text-left">
+                                            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                                                <tr>
+                                                    <th className="py-3 px-6">Customers Name</th>
+                                                    <th className="py-3 px-6">Contact No.</th>
+                                                    <th className="py-3 px-6 print:hidden">View Data</th>
+                                                    <th className="py-3 px-6">Last Entry Date</th>
+                                                    <th className="py-3 px-6">Balance</th>
+                                                    <th className="py-3 px-6 print:hidden"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-600 divide-y">
+                                                {displayedCustomers
+                                                    .filter((item) => item.phoneno === userid)
+                                                    .map((item, _id) => (
+                                                        <tr key={_id} className="divide-x">
+                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
+                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
+
+                                                            <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
+                                                                <button
+                                                                    onClick={() => handleViewData(item.customerid)}
+                                                                    className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
+                                                                >
+                                                                    View Data
+                                                                </button>
+
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">
+                                                                {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
+                                                        </tr>
+                                                    ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {isLastPage && (
+                                        <div className="mt-4">
+                                            <h2 className="text-xl font-semibold mb-2">Total Balance of All Customers:</h2>
+                                            <div className="text-2xl font-bold">{calculateTotalBalance(customerData)} INR</div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>)}
+
+                        <div className="mt-10 py-4 border-t md:text-center">
+                            <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
