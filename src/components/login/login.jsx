@@ -50,7 +50,7 @@ const Login = () => {
                 <div className="max-w-sm w-full text-gray-600 space-y-8">
                     <div className="text-center"> 
                         <Image
-                            src="/loginicon.png" 
+                            src="/loginicon.png"
                             width={150}
                             height={150}
                             className='mx-auto'
