@@ -16,7 +16,7 @@ const BillPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/getcustomer`);
-        const allCustomerData = response.data.customer;
+        const allCustomerData = response.data.customer; 
 
         // Debugging: Log the fetched data
 
