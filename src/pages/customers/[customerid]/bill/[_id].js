@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../../../useAuth'
 
 const BillPage = () => {
-  const { isAuthenticated, userId } = useAuth();
+  useAuth();
   const router = useRouter();
   const { customerid, _id } = router.query;
 

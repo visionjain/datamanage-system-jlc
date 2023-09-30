@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from './useAuth';
 const Selector = () => {
-    const { isAuthenticated, userId } = useAuth();
+    useAuth();
     const router = useRouter();
 
     const handleCustomerClick = () => {

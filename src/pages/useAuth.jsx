@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-const useAuth = () => {
+export const useAuth = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -14,11 +14,5 @@ const useAuth = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Disable ESLint rule for this specific line
 
-  // Return authentication status or user information if needed
-  const isAuthenticated = !!localStorage.getItem('token');
-  const userId = localStorage.getItem('userid'); // Assuming you store user ID in localStorage
-
-  return { isAuthenticated, userId };
-};6
-
-export default useAuth;
+  return {};
+};
