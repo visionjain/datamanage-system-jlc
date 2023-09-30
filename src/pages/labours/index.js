@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-
+import { useAuth } from '../../components/Customers/useAuth'
 
 
 const Labours = ({ labour }) => {
-
+    useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(true);

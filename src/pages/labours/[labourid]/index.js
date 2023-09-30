@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import ExcelGenerator from '../../../components/landing/ExcelGenerator';
 import axios from 'axios';
+import { useAuth } from '../../../components/Customers/useAuth'
 
 const Landing = () => {
+    useAuth();
     const [labour, setLabour] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [newData, setNewData] = useState({
