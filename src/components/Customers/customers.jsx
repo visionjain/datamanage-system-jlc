@@ -6,7 +6,7 @@ import { useAuth } from '../../pages/useAuth'
 
 
 const Customers = ({ customer }) => {
-    useAuth();
+    const { isAuthenticated, userId } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(true);

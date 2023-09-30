@@ -11,7 +11,7 @@ import { useAuth } from '../../useAuth'
 
 
 const Landing = () => {
-    useAuth();
+    const { isAuthenticated, userId } = useAuth();
     const [customer, setCustomer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
