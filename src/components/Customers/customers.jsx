@@ -631,7 +631,7 @@ const Customers = ({ customer }) => {
                                                 <div>Welcome, {userid}</div>
                                             </h3>
                                         </div>
-                                        <div className="mt-3 mb-3 md:mt-0 print:hidden">
+                                        <div className="mt-[-35px] ml-60 md:ml-0 mb-3 md:mt-0 print:hidden ">
                                             <LogoutButton />
                                         </div>
                                     </div>
@@ -703,7 +703,7 @@ const Customers = ({ customer }) => {
                             </div>)}
 
                         <div className="mt-10 py-4 border-t md:text-center">
-                            <p>© 2023  Jai Lime & Chemical. All rights reserved.</p>
+                            <p className='text-center'>© 2023  Jai Lime & Chemical. All rights reserved.</p>
                         </div>
                     </div>
                 </div>
