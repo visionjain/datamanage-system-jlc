@@ -445,15 +445,12 @@ const Landing = () => {
         return new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2 }).format(number);
     }
 
-
-    const lastRowBalance = customer.data && customer.data.length > 0
-        ? parseFloat(customer.data[customer.data.length - 1].balance)
+    const lastRowBalance = customer && customer.data && customer.data.length > 0
+        ? parseFloat(customer.data[customer.data.length - 1]?.balance || 0)
         : 0; // Default to 0 if data is empty
 
     // Format the last row's balance with commas using toLocaleString
     const formattedLastRowBalance = lastRowBalance.toLocaleString('en-IN');
-
-
 
 
 
