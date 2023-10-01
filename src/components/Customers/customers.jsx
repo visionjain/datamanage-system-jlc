@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import ReactPaginate from 'react-paginate';
 import { useAuth } from './useAuth';
 import LogoutButton from "./LogoutButton";
@@ -17,6 +18,8 @@ const Customers = ({ customer }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [userid, setUserid] = useState('');
     const [role, setRole] = useState('');
+
+    const router = useRouter();
 
     useEffect(() => {
         // Get the user's role from the JWT token in local storage
@@ -82,6 +85,18 @@ const Customers = ({ customer }) => {
 
         return formattedBalance;
     };
+
+    useEffect(() => {
+        if (role === 'user' && customerData.customer) {
+            // Check if the user's `phoneno` matches a `phoneno` in the customer data
+            const customerMatch = customerData.customer.find(customer => customer.phoneno === userid);
+
+            if (customerMatch) {
+                // Redirect the user to their specific customer page based on `customerid`
+                router.push(`/customers/${customerMatch.customerid}`);
+            }
+        }
+    }, [role, userid, customerData, router]);
 
 
 
@@ -618,7 +633,7 @@ const Customers = ({ customer }) => {
             )}
             {role === 'user' && (
                 <div>
-                    <div>
+                    {/* <div>
                         {isLoading ? ( // Display loading indicator if isLoading is true
                             <div className="flex justify-center items-center h-screen">
                                 <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
@@ -707,7 +722,8 @@ const Customers = ({ customer }) => {
                         <div className="mt-10 py-4 border-t md:text-center">
                             <p className='text-center'>© 2023  Jai Lime & Chemical. All rights reserved.</p>
                         </div>
-                    </div>
+                    </div> */}
+
                 </div>
             )}
         </div>

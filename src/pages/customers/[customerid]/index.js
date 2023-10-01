@@ -446,6 +446,15 @@ const Landing = () => {
     }
 
 
+    const lastRowBalance = customer.data && customer.data.length > 0
+        ? parseFloat(customer.data[customer.data.length - 1].balance)
+        : 0; // Default to 0 if data is empty
+
+    // Format the last row's balance with commas using toLocaleString
+    const formattedLastRowBalance = lastRowBalance.toLocaleString('en-IN');
+
+
+
 
 
 
@@ -976,12 +985,20 @@ const Landing = () => {
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div className="max-w-lg mt-10">
-                                    <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
-                                        {customer.customername}&apos;s खाता
+                                <div className="w-[94vw] md:mt-10 mt-4">
+                                    <h3 className="md:flex text-gray-800 text-xl font-bold sm:text-4xl">
+                                        {customer.customername} खाता
+                                        <div className='md:ml-[55vw] mt-3 md:mt-0'>
+                                            <h3 className="w-72 md:w-[100%] text-gray-800 text-xl font-bold sm:text-4xl border-black border-4 py-2 px-2 rounded-xl">
+                                                Balance (शेष): {formattedLastRowBalance} INR
+                                            </h3>
+                                        </div>
                                     </h3>
+
                                 </div>
-                                <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto mb-10">
+
+
+                                <div className="md:mt-12 mt-6 shadow-sm border rounded-lg overflow-x-auto mb-10">
                                     <table className="w-full table-auto text-sm text-left">
                                         <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                             <tr className='divide-x'>
