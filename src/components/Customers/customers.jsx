@@ -68,7 +68,8 @@ const Customers = ({ customer }) => {
         let balance = parseFloat(customer.initialbalance);
 
         for (const entry of customer.data) {
-            const dr = parseFloat(entry.dr);
+            // Round the "dr" value to the nearest integer
+            const dr = Math.round(parseFloat(entry.dr));
             const cr = parseFloat(entry.cr) || 0; // Use 0 if cr is empty or NaN
 
             balance += dr - cr;
@@ -81,6 +82,7 @@ const Customers = ({ customer }) => {
 
         return formattedBalance;
     };
+
 
 
 
