@@ -3,9 +3,13 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import ReactPaginate from 'react-paginate';
 import { useAuth } from './useAuth';
-import LogoutButton from "./LogoutButton";
 import jwt from 'jsonwebtoken';
-
+import Image from 'next/image';
+import jlc from "../../../public/logojlc.png"
+import { HiOutlineLogout } from 'react-icons/hi';
+import { HiMagnifyingGlass } from 'react-icons/hi2';
+import { AiFillAccountBook, AiOutlineUserAdd } from 'react-icons/ai';
+import { BsPrinter } from 'react-icons/bs';
 
 
 const Customers = ({ customer }) => {
@@ -351,6 +355,14 @@ const Customers = ({ customer }) => {
         }
     };
 
+    // Function to handle logout
+    const handleLogout = () => {
+        // Remove the token from local storage
+        localStorage.removeItem('token');
+
+        // Redirect to the login page or any other desired location
+        router.push('/login');
+    };
 
 
 
@@ -364,63 +376,101 @@ const Customers = ({ customer }) => {
                             <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
                         </div>
                     ) : (
-                        <div className='pt-10 pb-10'>
+                        <div>
+                            <div className='bg-[#F4F4F4] text-black md:h-[22vh] h-[40vh] border-b border-gray-400 shadow-lg'>
+                                <div className='md:flex'>
+                                    <div className='md:w-1/6'>
+                                        <Image
+                                            src={jlc}
+                                            width={150}
+                                            height={200}
+                                            className='absolute md:ml-6 md:w-52 w-24 ml-36 top-2'
+                                            alt="Logo"
+                                        />
+                                    </div>
+                                    <div className='md:w-5/6 md:flex '>
+                                        <div className='w-4/6 text-center md:ml-40 ml-16 pt-5'>
+                                            <div className='md:text-5xl text-lg font-bold font-serif md:pt-0 pt-20'>
+                                                JAI LIME & CHEMICAL
+                                            </div>
+                                            <div>
+                                                H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                            </div>
+                                            <div>
+                                                Mo. : 99508 35585, 85296 22695
+                                            </div>
+                                            <div>
+                                                GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
+                                            </div>
+                                        </div>
+                                        <div className='w-2/6 '>
+                                            <button
+                                                onClick={handleLogout}
+                                                className="logout-button bg-[#494949] text-white p-3 md:ml-40 ml-44 md:mt-10 mt-4 md:w-20 md:h-20 w-18 h-18 rounded-full flex flex-col items-center justify-center text-center"
+                                            >
+                                                <div className="flex items-center justify-center">
+                                                    <HiOutlineLogout className='md:w-6 md:h-6 w-6 h-6' />
+                                                </div>
+                                                <div className='md:text-lg text-sm'>
+                                                    Logout
+                                                </div>
+                                            </button>
 
-                            <div className="w-full px-4 md:px-8">
-                                <div className="items-start justify-between md:flex">
-                                    <div className="max-w-lg ">
-                                        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                                            <div>Welcome, {userid}</div>
-                                            All Customers
-                                        </h3>
-                                    </div>
-                                    <div className="mt-3 mb-3 md:mt-0 print:hidden">
-                                        <a
-                                            className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
-                                            onClick={handleAddDataClick}
-                                        >
-                                            Add Customer
-                                        </a>
-                                        <button
-                                            onClick={handlePrint}
-                                            className="bg-red-600 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
-                                        >
-                                            Print Table
-                                        </button>
-                                        <LogoutButton />
+                                        </div>
                                     </div>
                                 </div>
-                                <table className="border-2 border-black mx-auto">
-                                    <tbody>
-                                        <tr>
-                                            <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
-                                                <div className='text-5xl font-bold font-serif'>
-                                                    JAI LIME & CHEMICAL
-                                                </div>
-                                                <div>
-                                                    H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
-                                                </div>
-                                                <div>
-                                                    Mo. : 99508 35585, 85296 22695
-                                                </div>
-                                                <div>
-                                                    GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div className="mt-10">
-                                    <input
-                                        type="text"
-                                        placeholder="Search by S.NO. or Customers Name"
-                                        value={searchQuery}
-                                        onChange={event => setSearchQuery(event.target.value)}
-                                        onClick={handleSearchClick} // Add this line
-                                        className="border p-2 rounded-md w-full print:hidden"
-                                    />
+                            </div>
+                            <div className='flex flex-col mt-4 md:flex-row'>
+                                <div className='md:w-1/2 w-full'>
+                                    <h3 className="text-gray-800 text-xl sm:text-3xl ml-10 sm:ml-8 mt-4">
+                                        <div>Welcome {userid},</div>
+                                    </h3>
+                                    <div className="mt-4 ml-10 sm:ml-8 w-[75%] md:w-[55%] flex border-black border-2 rounded-full p-1" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} onClick={handleSearchClick}>
+                                        <input
+                                            type="text"
+                                            placeholder="Search by S.NO. or Customers Name"
+                                            value={searchQuery}
+                                            onChange={event => setSearchQuery(event.target.value)}
+                                            onClick={handleSearchClick}
+                                            className="rounded-full w-full print:hidden outline-none"
+                                        />
+                                        <div className='bg-[#FF9211] rounded-full w-8 h-8 mr-1 p-2'>
+                                            <HiMagnifyingGlass className='w-4 h-4' />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+                                <div className="w-full md:w-1/2 mt-4">
+                                    <div className="flex flex-col md:flex-row justify-center md:justify-start">
+                                        <div className="w-full md:w-1/2">
+                                            <div className="text-center border-2 border-gray-400 w-80 md:w-64 rounded-xl shadow-xl p-4 md:ml-60 ml-10">
+                                                <h2 className="text-xl font-semibold mb-2">Total Pending Balances</h2>
+                                                <div className="text-2xl font-bold italic">INR {calculateTotalBalance(customerData)}/-</div>
+                                            </div>
+                                        </div>
+                                        <div className="md:w-1/2 md:flex-col md:ml-0 ml-24">
+                                            <div>
+                                                <button
+                                                    onClick={handleAddDataClick}
+                                                    className="flex bg-[#1B998B] text-white px-4 py-2 rounded-full mt-4 md:mt-0 ml-4 md:ml-40 print:hidden shadow-sm shadow-[#1B998B]"
+                                                >
+                                                    Add Customer <AiOutlineUserAdd className='w-6 h-6 ml-2' />
+                                                </button>
+                                            </div>
+                                            <div className="mt-4 md:mt-2">
+                                                <button
+                                                    onClick={handlePrint}
+                                                    className="flex bg-[#FF7A00D9] text-white px-4 py-2 rounded-full ml-4 md:ml-40 print:hidden shadow-sm shadow-[#FF7A00D9]"
+                                                >
+                                                    Print Table <BsPrinter className='w-6 h-6 ml-9' />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className="pb-10 w-full px-4 md:px-8">
+                                <div className="mt-10 shadow-sm border rounded-lg overflow-x-auto">
                                     <table className="w-full table-auto text-sm text-left">
                                         <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                             <tr>
@@ -530,12 +580,6 @@ const Customers = ({ customer }) => {
                                         </tbody>
                                     </table>
                                 </div>
-                                {isLastPage && (
-                                    <div className="mt-4">
-                                        <h2 className="text-xl font-semibold mb-2">Total Balance of All Customers:</h2>
-                                        <div className="text-2xl font-bold">{calculateTotalBalance(customerData)} INR</div>
-                                    </div>
-                                )}
                                 <div className="mt-4 print:hidden">
                                     <button
                                         onClick={goToFirstPage}
