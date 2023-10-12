@@ -8,6 +8,7 @@ import jlc from '../../../../public/jlc.png';
 import { useAuth } from '../../../components/Customers/useAuth';
 import LogoutButton from "../../../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
+import { format, parse, isWithinInterval } from 'date-fns';
 
 
 
@@ -17,6 +18,10 @@ const Landing = () => {
     const [customer, setCustomer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [role, setRole] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [filteredData, setFilteredData] = useState(null);
+
 
     useEffect(() => {
         // Get the user's role from the JWT token in local storage
@@ -28,6 +33,7 @@ const Landing = () => {
             }
         }
     }, []);
+
 
 
     const router = useRouter();
@@ -57,6 +63,19 @@ const Landing = () => {
         fetchData();
     }, [customerid]);
 
+    const handleFilter = () => {
+        // Convert dates to timestamps for comparison
+        const startTimestamp = new Date(startDate).getTime();
+        const endTimestamp = new Date(endDate).getTime();
+
+        // Filter the data based on the date range
+        const filteredRows = customer.data.filter((item) => {
+            const itemTimestamp = new Date(item.salesdate).getTime();
+            return itemTimestamp >= startTimestamp && itemTimestamp <= endTimestamp;
+        });
+
+        setFilteredData(filteredRows);
+    };
 
     // ...
     const [initialBalance, setInitialBalance] = useState(0);
@@ -104,6 +123,9 @@ const Landing = () => {
 
     const [initialCalculationDone, setInitialCalculationDone] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+
+
+
     const filteredTableItems = customer && customer.data
         ? customer.data.filter(item =>
             item.numberid.includes(searchQuery) ||
@@ -111,6 +133,36 @@ const Landing = () => {
             item.drivername.toLowerCase().includes(searchQuery.toLowerCase())
         )
         : [];
+
+
+    useEffect(() => {
+        // Parse the date strings into date objects when customer data is available
+        if (customer && customer.data) {
+            const parsedData = customer.data.map((item) => {
+                return {
+                    ...item,
+                    salesdate: item.salesdate ? parse(item.salesdate, 'dd/MM/yy', new Date()) : null,
+                };
+            });
+            // Set the parsed data to the filtered data
+            setFilteredData(parsedData);
+        }
+    }, [customer]);
+    const applyDateRangeFilter = () => {
+        if (startDate && endDate) {
+            const start = parse(startDate, 'dd/MM/yy', new Date());
+            const end = parse(endDate, 'dd/MM/yy', new Date());
+
+            // Filter the data based on the date range
+            const filtered = filteredData.filter((item) => {
+                return isWithinInterval(item.salesdate, { start, end });
+            });
+
+            setFilteredData(filtered);
+        } else {
+            setFilteredData(null); // Clear the filter
+        }
+    };
 
 
 
@@ -401,9 +453,11 @@ const Landing = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    const paginatedTableItems = customer && customer.data
-        ? filteredTableItems.slice(startIndex, endIndex)
+    // Check if filteredData is not null before applying slice
+    const paginatedFilteredData = customer && customer.data && filteredData
+        ? filteredData.slice(startIndex, endIndex)
         : [];
+
     const nextPage = () => {
         if (currentPage < Math.ceil(filteredTableItems.length / itemsPerPage)) {
             setCurrentPage(currentPage + 1);
@@ -451,6 +505,16 @@ const Landing = () => {
 
     // Format the last row's balance with commas using toLocaleString
     const formattedLastRowBalance = lastRowBalance.toLocaleString('en-IN');
+    
+    const clearFilter = () => {
+        // Clear the date filter by setting startDate and endDate to empty strings
+        setStartDate('');
+        setEndDate('');
+    
+        // Reload the web page
+        window.location.reload();
+    };
+    
 
 
 
@@ -463,15 +527,10 @@ const Landing = () => {
             <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
         </div>
     } else {
-
-
-
-
         return (
             <div>
                 {role === 'admin' && (
                     <div className='pt-10'>
-
                         <div className="w-full px-4 md:px-8">
                             <div className="items-start justify-between md:flex">
                                 <div>
@@ -497,12 +556,6 @@ const Landing = () => {
                                         Print Table
                                     </button>
                                     <LogoutButton />
-                                    {/* <button
-                                onClick={pdfdownload}
-                                className="bg-green-800 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
-                            >
-                                Download as PDF
-                            </button> */}
                                     <ExcelGenerator tableItems={customer.data} />
                                 </div>
 
@@ -544,8 +597,39 @@ const Landing = () => {
                             <div className="mt-2 font-medium print:hidden">
                                 Old Due Balance: {initialBalance.toLocaleString('en-IN')}
                             </div>
+                            <div className='mt-4 p-4 border rounded-lg'>
+                                <label className="mr-4 text-lg">Start Date:</label>
+                                <input
+                                    type="text"
+                                    style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px' }}
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                />
+                                <label className="ml-4 mr-4 text-lg">End Date:</label>
+                                <input
+                                    type="text"
+                                    style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px' }}
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                />
 
-                            <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto mb-10">
+                                <button
+                                    onClick={applyDateRangeFilter}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md ml-8"
+                                >
+                                    Apply Filter
+                                </button>
+                                <button
+                                    onClick={clearFilter}
+                                    className="bg-red-500 hover.bg-red-700 text-white font-bold py-2 px-4 rounded-md ml-4"
+                                >
+                                    Clear Filter
+                                </button>
+                            </div>
+
+
+
+                            <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto mb-10">
                                 <table className="w-full table-auto text-sm text-left">
                                     <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                         <tr className='divide-x'>
@@ -574,12 +658,15 @@ const Landing = () => {
                                     </thead>
                                     <tbody className="text-gray-600 divide-y">
 
-                                        {customer && customer.data && paginatedTableItems
-                                            ? paginatedTableItems.map((item, idx) => (
+                                        {customer && customer.data
+                                            ? (paginatedFilteredData).map((item, idx) => (
                                                 <tr key={idx} className="divide-x">
                                                     <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl print:hidden">{idx + 1}</td>
                                                     <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl"> {item.salesdate === '' ? '-' : item.salesdate}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
+                                                        {item.salesdate && !isNaN(new Date(item.salesdate).getTime()) ? format(new Date(item.salesdate), 'dd/MM/yy') : '-'}
+                                                    </td>
+
                                                     <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
                                                         {item.drivername === '' ? '-' : item.drivername}
                                                     </td>
