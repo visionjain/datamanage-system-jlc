@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from "next/image";
-import jlc from "../../../public/jlc.png";
+import jlc from "../../../public/logojlc.png";
 import { useRouter } from 'next/router';
 import axios from 'axios';
 

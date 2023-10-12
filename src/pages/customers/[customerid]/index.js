@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import ExcelGenerator from '../../../components/landing/ExcelGenerator';
 import axios from 'axios';
 import Image from 'next/image';
-import jlc from '../../../../public/jlc.png';
+import jlc from '../../../../public/logojlc.png';
 import { useAuth } from '../../../components/Customers/useAuth';
 import LogoutButton from "../../../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
