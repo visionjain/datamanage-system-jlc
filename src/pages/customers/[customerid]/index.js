@@ -505,7 +505,7 @@ const Landing = () => {
 
     // Format the last row's balance with commas using toLocaleString
     const formattedLastRowBalance = lastRowBalance.toLocaleString('en-IN');
-    
+
     const clearFilter = () => {
         // Clear the date filter by setting startDate and endDate to empty strings
         setStartDate('');
@@ -604,6 +604,7 @@ const Landing = () => {
                                     style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px' }}
                                     value={startDate}
                                     onChange={(e) => setStartDate(e.target.value)}
+                                    placeholder='dd/mm/yy'
                                 />
                                 <label className="ml-4 mr-4 text-lg">End Date:</label>
                                 <input
@@ -611,6 +612,7 @@ const Landing = () => {
                                     style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px' }}
                                     value={endDate}
                                     onChange={(e) => setEndDate(e.target.value)}
+                                    placeholder='dd/mm/yy'
                                 />
 
                                 <button
