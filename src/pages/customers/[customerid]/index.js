@@ -597,7 +597,7 @@ const Landing = () => {
                             <div className="mt-2 font-medium print:hidden">
                                 Old Due Balance: {initialBalance.toLocaleString('en-IN')}
                             </div>
-                            <div className='mt-4 p-4 border rounded-lg'>
+                            <div className='mt-4 p-4 border rounded-lg print:hidden'>
                                 <label className="mr-4 text-lg">Start Date:</label>
                                 <input
                                     type="text"
