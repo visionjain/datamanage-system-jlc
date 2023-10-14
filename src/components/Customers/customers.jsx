@@ -637,14 +637,6 @@ const Customers = ({ customer }) => {
                                                 />
                                                 <input
                                                     type="tel"
-                                                    name="phoneno2"
-                                                    placeholder="Alt. Contact No."
-                                                    value={newData.phoneno2} // Corrected value attribute
-                                                    onChange={handleFormChange}
-                                                    className="ml-2 border p-2 rounded-md"
-                                                />
-                                                <input
-                                                    type="tel"
                                                     name="initialbalance"
                                                     placeholder="Opening Balance"
                                                     value={newData.initialbalance} // Corrected value attribute
