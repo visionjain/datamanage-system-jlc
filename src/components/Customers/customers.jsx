@@ -8,7 +8,7 @@ import Image from 'next/image';
 import jlc from "../../../public/logojlc.png"
 import { HiOutlineLogout } from 'react-icons/hi';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
-import { AiFillAccountBook, AiOutlineUserAdd } from 'react-icons/ai';
+import {AiOutlineUserAdd } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
 
 

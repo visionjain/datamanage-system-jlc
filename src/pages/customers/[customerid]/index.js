@@ -9,6 +9,7 @@ import { useAuth } from '../../../components/Customers/useAuth';
 import LogoutButton from "../../../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
 import { format, parse, isWithinInterval } from 'date-fns';
+import { BsFillArrowUpSquareFill } from 'react-icons/bs';
 
 
 
@@ -651,8 +652,8 @@ const Landing = () => {
                                             <th className="py-3 px-2 text-2xl">Labour Charge</th>
                                             <th className="py-3 px-2 text-2xl">Auto Charge</th>
                                             <th className="py-3 px-2 text-2xl">Extra Charges</th>
-                                            <th className="py-3 px-6 text-2xl">DR (बकाया)</th>
-                                            <th className="py-3 px-2 text-2xl">CR (जमा)</th>
+                                            <th className="py-3 px-6 text-2xl"><div className='flex'>DR (बकाया)<div><BsFillArrowUpSquareFill/></div></div></th>
+                                            <th className="py-3 px-2 text-2xl"><div className='flex'>CR (जमा)<div><BsFillArrowUpSquareFill/></div></div></th>
                                             <th className="py-3 px-6 text-2xl">Balance (शेष)</th>
                                             <th className="py-3 px-6 text-2xl print:hidden">Generate Bill</th>
                                             <th className="py-3 px-6 print:hidden "></th>
