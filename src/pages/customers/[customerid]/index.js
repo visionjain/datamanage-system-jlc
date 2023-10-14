@@ -466,9 +466,10 @@ const Landing = () => {
 
     //pagiantion
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 15;
+    const [itemsPerPage, setItemsPerPage] = useState(15);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
+
 
     // Check if filteredData is not null before applying slice
     const paginatedFilteredData = customer && customer.data && filteredData
@@ -553,6 +554,40 @@ const Landing = () => {
 
 
 
+
+    const calculateTotalDR = () => {
+        if (customer && customer.data) {
+            const totalDR = customer.data.reduce((accumulator, item) => {
+                return accumulator + parseFloat(item.dr || 0);
+            }, 0);
+            return totalDR;
+        }
+        return 0;
+    };
+
+    const calculateTotalCR = () => {
+        if (customer && customer.data) {
+            const totalCR = customer.data.reduce((accumulator, item) => {
+                return accumulator + parseFloat(item.cr || 0);
+            }, 0);
+            return totalCR;
+        }
+        return 0;
+    };
+
+    const totalDR = calculateTotalDR();
+    const totalCR = calculateTotalCR();
+
+
+    // ... (your existing code)
+
+    const handleItemsPerPageChange = (event) => {
+        const newValue = parseInt(event.target.value);
+        setItemsPerPage(newValue);
+    };
+
+
+
     if (!customer) {
         <div className="flex justify-center items-center h-screen">
             <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
@@ -585,7 +620,7 @@ const Landing = () => {
                                             className="flex cursor-pointer px-7 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover-bg-indigo-500 active-bg-indigo-700 md-text-sm"
                                             onClick={handleDownloadClick}
                                         >
-                                            Download <BsCloudDownload className='w-5 h-5 ml-2 mt-1'/>
+                                            Download <BsCloudDownload className='w-5 h-5 ml-2 mt-1' />
                                         </button>
                                         {isDropdownOpen && (
                                             <div className="origin-top-right absolute w-40 rounded-md shadow-lg bg-gray-200 focus-outline-none" tabindex-1>
@@ -594,11 +629,11 @@ const Landing = () => {
                                                         onClick={handlePrintClick}
                                                         className=" flex px-4 py-2 text-black font-bold border-2 border-black bg-orange-400 hover-bg-gray-100 w-full text-left"
                                                     >
-                                                        Print Table <BsPrinter className='w-5 h-5 ml-2 mt-1'/>
+                                                        Print Table <BsPrinter className='w-5 h-5 ml-2 mt-1' />
                                                     </button>
                                                 </div>
                                                 <div className="py-1" role-menuitem tabindex-0 onClick={handleExcelGeneratorClick}>
-                                                <ExcelGenerator tableItems={customer.data}/> 
+                                                    <ExcelGenerator tableItems={customer.data} />
                                                 </div>
                                             </div>
                                         )}
@@ -641,9 +676,9 @@ const Landing = () => {
                                 />
                             </div>
                             <div className="mt-2 font-medium print:hidden">
-                                Old Due Balance: {initialBalance.toLocaleString('en-IN')}
+                                Old Due Balance: {initialBalance.toLocaleString('en-IN')} &nbsp;&nbsp;&nbsp; Total DR: {totalDR.toLocaleString('en-IN')} &nbsp;&nbsp;&nbsp; Total CR: {totalCR.toLocaleString('en-IN')}
                             </div>
-                            <div className='mt-4 p-4 border rounded-lg print:hidden'>
+                            <div className='flex mt-4 p-4 border rounded-lg print:hidden'>
                                 <label className="mr-4 text-lg">Start Date:</label>
                                 <input
                                     type="text"
@@ -673,6 +708,22 @@ const Landing = () => {
                                 >
                                     Clear Filter
                                 </button>
+                                <div className="ml-10 font-medium print:hidden">
+                                <label htmlFor="itemsPerPage">Rows per page:</label>
+                                <select
+                                    id="itemsPerPage"
+                                    name="itemsPerPage"
+                                    value={itemsPerPage}
+                                    onChange={handleItemsPerPageChange}
+                                    className="ml-2 bg-white border border-gray-300 rounded-md px-2 py-1"
+                                >
+                                    <option value={15}>15</option>
+                                    <option value={30}>30</option>
+                                    <option value={50}>50</option>
+                                    <option value={100}>100</option>
+                                    <option value={customer.data ? customer.data.length : 0}>All</option>
+                                </select>
+                            </div>
                             </div>
 
 
