@@ -675,7 +675,7 @@ const Landing = () => {
                                             >
                                                 <div className='flex'>
                                                     DR (बकाया)
-                                                    <div>
+                                                    <div className='print:hidden'>
                                                         <BsFillArrowUpSquareFill />
                                                     </div>
                                                 </div>
@@ -686,7 +686,7 @@ const Landing = () => {
                                             >
                                                 <div className='flex'>
                                                     CR (जमा)
-                                                    <div>
+                                                    <div className='print:hidden'>
                                                         <BsFillArrowUpSquareFill />
                                                     </div>
                                                 </div>
