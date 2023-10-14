@@ -8,7 +8,7 @@ import Image from 'next/image';
 import jlc from "../../../public/logojlc.png"
 import { HiOutlineLogout } from 'react-icons/hi';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
-import {AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
@@ -479,9 +479,9 @@ const Customers = ({ customer }) => {
                                                 <th className="py-3 px-6">S. NO.</th>
                                                 <th className="py-3 px-6">Customers Name</th>
                                                 <th className="py-3 px-6">Contact No.</th>
-                                                <th className="py-3 px-6 print:hidden">View Data</th>
                                                 <th className="py-3 px-6">Last Entry Date</th>
                                                 <th className="py-3 px-6">Balance</th>
+                                                <th className="py-3 px-6 print:hidden">View Data</th>
                                                 <th className="py-3 px-6 print:hidden"></th>
                                             </tr>
                                         </thead>
@@ -492,6 +492,11 @@ const Customers = ({ customer }) => {
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
 
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
+                                                        {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
                                                         <button
                                                             onClick={() => handleViewData(item.customerid)}
@@ -501,10 +506,6 @@ const Customers = ({ customer }) => {
                                                         </button>
 
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
-                                                        {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
 
 
 
@@ -564,14 +565,14 @@ const Customers = ({ customer }) => {
                                                                     onClick={() => handleEditClick(pageNumber, _id)}
                                                                     className="print:hidden py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                                 >
-                                                                    <FaRegEdit className='w-5 h-5'/>
+                                                                    <FaRegEdit className='w-5 h-5' />
                                                                 </button>
 
                                                                 <button
                                                                     onClick={() => handleDeleteClick(item.customerid)}
                                                                     className="print:hidden py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                                 >
-                                                                    <FaRegTrashAlt className='w-5 h-5'/>
+                                                                    <FaRegTrashAlt className='w-5 h-5' />
                                                                 </button>
                                                             </>
                                                         )}
