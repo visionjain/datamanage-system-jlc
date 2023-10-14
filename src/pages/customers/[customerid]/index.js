@@ -9,7 +9,7 @@ import { useAuth } from '../../../components/Customers/useAuth';
 import LogoutButton from "../../../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
 import { format, parse, isWithinInterval } from 'date-fns';
-import { BsFillArrowUpSquareFill, BsCloudDownload } from 'react-icons/bs';
+import { BsFillArrowUpSquareFill, BsCloudDownload, BsPrinter, BsFileEarmarkExcel } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 
@@ -592,13 +592,13 @@ const Landing = () => {
                                                 <div className="py-1" role-menuitem tabindex-0>
                                                     <button
                                                         onClick={handlePrintClick}
-                                                        className="block px-4 py-2 text-black font-bold border-2 border-black bg-orange-400 hover-bg-gray-100 w-full text-left"
+                                                        className=" flex px-4 py-2 text-black font-bold border-2 border-black bg-orange-400 hover-bg-gray-100 w-full text-left"
                                                     >
-                                                        Print Table
+                                                        Print Table <BsPrinter className='w-5 h-5 ml-2 mt-1'/>
                                                     </button>
                                                 </div>
                                                 <div className="py-1" role-menuitem tabindex-0 onClick={handleExcelGeneratorClick}>
-                                                <ExcelGenerator tableItems={customer.data} />
+                                                <ExcelGenerator tableItems={customer.data}/> 
                                                 </div>
                                             </div>
                                         )}

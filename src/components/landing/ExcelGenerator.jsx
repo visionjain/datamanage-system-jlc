@@ -1,5 +1,7 @@
 import React from 'react';
 import * as ExcelJS from 'exceljs';
+import {BsFileEarmarkExcel} from 'react-icons/bs';
+
 
 const ExcelGenerator = ({ tableItems }) => {
   const generateExcel = async () => {
@@ -62,7 +64,7 @@ const ExcelGenerator = ({ tableItems }) => {
 
   return (
     <div>
-      <button  className="block px-4 py-2 bg-green-400 border-2 border-black font-bold text-black hover-bg-gray-100 w-full text-left" onClick={generateExcel}>Generate Excel</button>
+      <button  className="flex px-4 py-2 bg-green-400 border-2 border-black font-bold text-black hover-bg-gray-100 w-full text-left text-[13px] top-2" onClick={generateExcel}>Generate Excel <BsFileEarmarkExcel className='w-5 h-5 ml-2 mt-1'/></button>
     </div>
   );
 };
