@@ -10,6 +10,7 @@ import LogoutButton from "../../../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
 import { format, parse, isWithinInterval } from 'date-fns';
 import { BsFillArrowUpSquareFill } from 'react-icons/bs';
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 
 
@@ -64,24 +65,10 @@ const Landing = () => {
         fetchData();
     }, [customerid]);
 
-    const handleFilter = () => {
-        // Convert dates to timestamps for comparison
-        const startTimestamp = new Date(startDate).getTime();
-        const endTimestamp = new Date(endDate).getTime();
 
-        // Filter the data based on the date range
-        const filteredRows = customer.data.filter((item) => {
-            const itemTimestamp = new Date(item.salesdate).getTime();
-            return itemTimestamp >= startTimestamp && itemTimestamp <= endTimestamp;
-        });
-
-        setFilteredData(filteredRows);
-    };
-
-    // ...
     const [initialBalance, setInitialBalance] = useState(0);
 
-    // ...
+   
 
     useEffect(() => {
         const fetchData = async () => {
@@ -255,9 +242,9 @@ const Landing = () => {
                 item.salesdate.includes(searchQuery) ||
                 item.drivername.toLowerCase().includes(searchQuery.toLowerCase()))
         );
-
         setFilteredData(updatedTableItems);
     };
+    
     const handleCRArrowClick = () => {
         setShowOnlyNonZeroCR(!showOnlyNonZeroCR);
 
@@ -792,7 +779,7 @@ const Landing = () => {
                                                             onClick={() => handleEditClick(idx, item._id)} // Pass both idx and item._id
                                                             className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                         >
-                                                            Edit
+                                                            <FaRegEdit className='w-5 h-5'/>
                                                         </button>
 
 
@@ -800,7 +787,7 @@ const Landing = () => {
                                                             onClick={() => handleDeleteClick(idx, item._id)} // Call the delete handler with item._id
                                                             className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                         >
-                                                            Delete
+                                                            <FaRegTrashAlt className='w-5 h-5'/>
                                                         </button>
                                                     </td>
                                                 </tr>

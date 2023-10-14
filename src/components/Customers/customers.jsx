@@ -10,6 +10,7 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
 import {AiOutlineUserAdd } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 
 const Customers = ({ customer }) => {
@@ -378,7 +379,7 @@ const Customers = ({ customer }) => {
                         </div>
                     ) : (
                         <div>
-                            <div className='bg-[#F4F4F4] text-black md:h-[22vh] h-[40vh] border-b border-gray-400 shadow-lg'>
+                            <div className='bg-[#F4F4F4] text-black print:hidden md:h-[22vh] h-[40vh] border-b border-gray-400 shadow-lg'>
                                 <div className='md:flex'>
                                     <div className='md:w-1/6'>
                                         <Image
@@ -389,7 +390,7 @@ const Customers = ({ customer }) => {
                                             alt="Logo"
                                         />
                                     </div>
-                                    <div className='md:w-5/6 md:flex '>
+                                    <div className='md:w-5/6 md:flex'>
                                         <div className='w-4/6 text-center md:ml-40 ml-16 pt-5'>
                                             <div className='md:text-5xl text-lg font-bold font-serif md:pt-0 pt-20'>
                                                 JAI LIME & CHEMICAL
@@ -421,7 +422,7 @@ const Customers = ({ customer }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex flex-col mt-4 md:flex-row'>
+                            <div className='flex flex-col mt-4 md:flex-row print:hidden'>
                                 <div className='md:w-1/2 w-full'>
                                     <h3 className="text-gray-800 text-xl sm:text-3xl ml-10 sm:ml-8 mt-4">
                                         <div>Welcome {userid},</div>
@@ -441,7 +442,7 @@ const Customers = ({ customer }) => {
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/2 mt-4">
-                                    <div className="flex flex-col md:flex-row justify-center md:justify-start">
+                                    <div className="flex flex-col md:flex-row justify-center md:justify-start print:hidden">
                                         <div className="w-full md:w-1/2">
                                             <div className="text-center border-2 border-gray-400 w-80 md:w-64 rounded-xl shadow-xl p-4 md:ml-60 ml-10">
                                                 <h2 className="text-xl font-semibold mb-2">Total Pending Balances</h2>
@@ -563,14 +564,14 @@ const Customers = ({ customer }) => {
                                                                     onClick={() => handleEditClick(pageNumber, _id)}
                                                                     className="print:hidden py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                                 >
-                                                                    Edit
+                                                                    <FaRegEdit className='w-5 h-5'/>
                                                                 </button>
 
                                                                 <button
                                                                     onClick={() => handleDeleteClick(item.customerid)}
                                                                     className="print:hidden py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                                 >
-                                                                    Delete
+                                                                    <FaRegTrashAlt className='w-5 h-5'/>
                                                                 </button>
                                                             </>
                                                         )}
