@@ -111,13 +111,14 @@ const Customers = ({ customer }) => {
         customerData.customer.forEach((customer) => {
             totalBalance += parseFloat(customer.initialbalance);
             customer.data.forEach((entry) => {
-                const dr = parseFloat(entry.dr);
-                const cr = parseFloat(entry.cr) || 0; // Use 0 if cr is empty or NaN
+                const dr = Math.round(parseFloat(entry.dr));
+                const cr = Math.round(parseFloat(entry.cr)) || 0; // Use 0 if cr is empty or NaN
                 totalBalance += dr - cr;
             });
         });
+        const formattedtotalbalance = totalBalance.toLocaleString('en-IN');
 
-        return totalBalance.toFixed(2); // Round to 2 decimal places
+        return formattedtotalbalance;
     };
 
     const handlePrint = () => {
@@ -669,97 +670,7 @@ const Customers = ({ customer }) => {
             )}
             {role === 'user' && (
                 <div>
-                    {/* <div>
-                        {isLoading ? ( // Display loading indicator if isLoading is true
-                            <div className="flex justify-center items-center h-screen">
-                                <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
-                            </div>
-                        ) : (
-                            <div className='pt-10 pb-10'>
-
-                                <div className="w-full px-4 md:px-8">
-                                    <div className="items-start justify-between md:flex">
-                                        <div className="max-w-lg ">
-                                            <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                                                <div>Welcome, {userid}</div>
-                                            </h3>
-                                        </div>
-                                        <div className="mt-[-35px] ml-60 md:ml-0 mb-3 md:mt-0 print:hidden ">
-                                            <LogoutButton />
-                                        </div>
-                                    </div>
-                                    <table className="border-2 border-black mx-auto">
-                                        <tbody>
-                                            <tr>
-                                                <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
-                                                    <div className='text-5xl font-bold font-serif'>
-                                                        JAI LIME & CHEMICAL
-                                                    </div>
-                                                    <div>
-                                                        H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
-                                                    </div>
-                                                    <div>
-                                                        Mo. : 99508 35585, 85296 22695
-                                                    </div>
-                                                    <div>
-                                                        GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
-                                        <table className="w-full table-auto text-sm text-left">
-                                            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                                                <tr>
-                                                    <th className="py-3 px-6">Customers Name</th>
-                                                    <th className="py-3 px-6">Contact No.</th>
-                                                    <th className="py-3 px-6 print:hidden">View Data</th>
-                                                    <th className="py-3 px-6">Last Entry Date</th>
-                                                    <th className="py-3 px-6">Balance</th>
-                                                    <th className="py-3 px-6 print:hidden"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="text-gray-600 divide-y">
-                                                {displayedCustomers
-                                                    .filter((item) => item.phoneno === userid)
-                                                    .map((item, _id) => (
-                                                        <tr key={_id} className="divide-x">
-                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
-
-                                                            <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
-                                                                <button
-                                                                    onClick={() => handleViewData(item.customerid)}
-                                                                    className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
-                                                                >
-                                                                    View Data
-                                                                </button>
-
-                                                            </td>
-                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">
-                                                                {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
-                                                            </td>
-                                                            <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
-                                                        </tr>
-                                                    ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    {isLastPage && (
-                                        <div className="mt-4">
-                                            <h2 className="text-xl font-semibold mb-2">Total Balance of All Customers:</h2>
-                                            <div className="text-2xl font-bold">{calculateTotalBalance(customerData)} INR</div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>)}
-
-                        <div className="mt-10 py-4 border-t md:text-center">
-                            <p className='text-center'>© 2023  Jai Lime & Chemical. All rights reserved.</p>
-                        </div>
-                    </div> */}
-
+                    <h1>ERROR - Please Reload</h1>
                 </div>
             )}
         </div>
