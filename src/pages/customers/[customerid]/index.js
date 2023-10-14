@@ -124,6 +124,8 @@ const Landing = () => {
 
     const [initialCalculationDone, setInitialCalculationDone] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [showOnlyNonZeroDR, setShowOnlyNonZeroDR] = useState(true);
+    const [showOnlyNonZeroCR, setShowOnlyNonZeroCR] = useState(true);
 
 
 
@@ -242,6 +244,33 @@ const Landing = () => {
         setIsAddingData(true);
     };
 
+
+    const handleDRArrowClick = () => {
+        setShowOnlyNonZeroDR(!showOnlyNonZeroDR);
+
+        // Add the code to filter the table based on showOnlyNonZeroDR
+        const updatedTableItems = customer.data.filter(item =>
+            (!showOnlyNonZeroDR || parseFloat(item.dr) !== 0) && // Apply the filter
+            (item.numberid.includes(searchQuery) ||
+                item.salesdate.includes(searchQuery) ||
+                item.drivername.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+
+        setFilteredData(updatedTableItems);
+    };
+    const handleCRArrowClick = () => {
+        setShowOnlyNonZeroCR(!showOnlyNonZeroCR);
+
+        // Add the code to filter the table based on showOnlyNonZeroDR
+        const updatedTableItems = customer.data.filter(item =>
+            (!showOnlyNonZeroCR || parseFloat(item.cr) !== 0) && // Apply the filter
+            (item.numberid.includes(searchQuery) ||
+                item.salesdate.includes(searchQuery) ||
+                item.drivername.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+
+        setFilteredData(updatedTableItems);
+    };
 
 
     const handleDeleteClick = async (index, _id) => {
@@ -511,14 +540,15 @@ const Landing = () => {
         // Clear the date filter by setting startDate and endDate to empty strings
         setStartDate('');
         setEndDate('');
-    
+
         // Reload the web page
         window.location.reload();
     };
-    
 
 
 
+    const drArrowClass = showOnlyNonZeroDR ? 'cursor-pointer' : 'cursor-pointer text-indigo-600';
+    const crArrowClass = showOnlyNonZeroCR ? 'cursor-pointer' : 'cursor-pointer text-indigo-600';
 
 
 
@@ -652,8 +682,28 @@ const Landing = () => {
                                             <th className="py-3 px-2 text-2xl">Labour Charge</th>
                                             <th className="py-3 px-2 text-2xl">Auto Charge</th>
                                             <th className="py-3 px-2 text-2xl">Extra Charges</th>
-                                            <th className="py-3 px-6 text-2xl"><div className='flex'>DR (बकाया)<div><BsFillArrowUpSquareFill/></div></div></th>
-                                            <th className="py-3 px-2 text-2xl"><div className='flex'>CR (जमा)<div><BsFillArrowUpSquareFill/></div></div></th>
+                                            <th
+                                                className={`py-3 px-6 text-2xl ${drArrowClass}`}
+                                                onClick={handleDRArrowClick}
+                                            >
+                                                <div className='flex'>
+                                                    DR (बकाया)
+                                                    <div>
+                                                        <BsFillArrowUpSquareFill />
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th
+                                                className={`py-3 px-6 text-2xl ${crArrowClass}`}
+                                                onClick={handleCRArrowClick}
+                                            >
+                                                <div className='flex'>
+                                                    CR (जमा)
+                                                    <div>
+                                                        <BsFillArrowUpSquareFill />
+                                                    </div>
+                                                </div>
+                                            </th>
                                             <th className="py-3 px-6 text-2xl">Balance (शेष)</th>
                                             <th className="py-3 px-6 text-2xl print:hidden">Generate Bill</th>
                                             <th className="py-3 px-6 print:hidden "></th>
