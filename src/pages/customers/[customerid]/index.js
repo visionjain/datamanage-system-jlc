@@ -9,7 +9,7 @@ import { useAuth } from '../../../components/Customers/useAuth';
 import LogoutButton from "../../../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
 import { format, parse, isWithinInterval } from 'date-fns';
-import { BsFillArrowUpSquareFill } from 'react-icons/bs';
+import { BsFillArrowUpSquareFill, BsCloudDownload } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 
@@ -68,7 +68,7 @@ const Landing = () => {
 
     const [initialBalance, setInitialBalance] = useState(0);
 
-   
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -244,7 +244,7 @@ const Landing = () => {
         );
         setFilteredData(updatedTableItems);
     };
-    
+
     const handleCRArrowClick = () => {
         setShowOnlyNonZeroCR(!showOnlyNonZeroCR);
 
@@ -536,7 +536,20 @@ const Landing = () => {
 
     const drArrowClass = showOnlyNonZeroDR ? 'cursor-pointer' : 'cursor-pointer text-indigo-600';
     const crArrowClass = showOnlyNonZeroCR ? 'cursor-pointer' : 'cursor-pointer text-indigo-600';
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const handleDownloadClick = () => {
+        setIsDropdownOpen(!isDropdownOpen); // Toggle the dropdown's visibility
+    };
+
+    const handlePrintClick = () => {
+        setIsDropdownOpen(false); // Close the dropdown
+        handlePrint(); // Call your print function here
+    };
+
+    const handleExcelGeneratorClick = () => {
+        setIsDropdownOpen(false);
+    };
 
 
 
@@ -562,21 +575,36 @@ const Landing = () => {
                                 </div>
                                 <div className="mt-3 mb-3 md:mt-0 print:hidden">
                                     <a
-                                        className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm print:hidden"
+                                        className="cursor-pointer inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover-bg-indigo-500 active-bg-indigo-700 md-text-sm"
                                         onClick={handleAddDataClick}
                                     >
                                         Add Data
                                     </a>
-                                    <button
-                                        onClick={handlePrint}
-                                        className="bg-red-600 text-white px-4 py-2 rounded-lg ml-10 print:hidden"
-                                    >
-                                        Print Table
-                                    </button>
+                                    <div className="relative inline-block text-left ml-10">
+                                        <button
+                                            className="flex cursor-pointer px-7 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover-bg-indigo-500 active-bg-indigo-700 md-text-sm"
+                                            onClick={handleDownloadClick}
+                                        >
+                                            Download <BsCloudDownload className='w-5 h-5 ml-2 mt-1'/>
+                                        </button>
+                                        {isDropdownOpen && (
+                                            <div className="origin-top-right absolute w-40 rounded-md shadow-lg bg-gray-200 focus-outline-none" tabindex-1>
+                                                <div className="py-1" role-menuitem tabindex-0>
+                                                    <button
+                                                        onClick={handlePrintClick}
+                                                        className="block px-4 py-2 text-black font-bold border-2 border-black bg-orange-400 hover-bg-gray-100 w-full text-left"
+                                                    >
+                                                        Print Table
+                                                    </button>
+                                                </div>
+                                                <div className="py-1" role-menuitem tabindex-0 onClick={handleExcelGeneratorClick}>
+                                                <ExcelGenerator tableItems={customer.data} />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                     <LogoutButton />
-                                    <ExcelGenerator tableItems={customer.data} />
                                 </div>
-
                             </div>
                             <table className="border-2 border-black mx-auto">
                                 <tbody>
@@ -779,7 +807,7 @@ const Landing = () => {
                                                             onClick={() => handleEditClick(idx, item._id)} // Pass both idx and item._id
                                                             className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                         >
-                                                            <FaRegEdit className='w-5 h-5'/>
+                                                            <FaRegEdit className='w-5 h-5' />
                                                         </button>
 
 
@@ -787,7 +815,7 @@ const Landing = () => {
                                                             onClick={() => handleDeleteClick(idx, item._id)} // Call the delete handler with item._id
                                                             className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
                                                         >
-                                                            <FaRegTrashAlt className='w-5 h-5'/>
+                                                            <FaRegTrashAlt className='w-5 h-5' />
                                                         </button>
                                                     </td>
                                                 </tr>

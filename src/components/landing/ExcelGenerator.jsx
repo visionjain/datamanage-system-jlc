@@ -62,7 +62,7 @@ const ExcelGenerator = ({ tableItems }) => {
 
   return (
     <div>
-      <button className='p-[10px] text-sm font-bold text-color-black rounded mb-4 bg-green-300 print:hidden mt-2 ml-[120px]' onClick={generateExcel}>Generate Excel</button>
+      <button  className="block px-4 py-2 bg-green-400 border-2 border-black font-bold text-black hover-bg-gray-100 w-full text-left" onClick={generateExcel}>Generate Excel</button>
     </div>
   );
 };
