@@ -599,7 +599,7 @@ const Landing = () => {
                     <div className='pt-10'>
                         <div className="w-full px-4 md:px-8">
                             <div className="items-start justify-between md:flex">
-                                <div>
+                                <div className='md:pb-0 pb-16'>
                                     <Image
                                         src={jlc}
                                         width={150}
@@ -615,7 +615,7 @@ const Landing = () => {
                                     >
                                         Add Data
                                     </a>
-                                    <div className="relative inline-block text-left ml-10">
+                                    <div className="relative inline-block text-left ml-10 md:pb-0 pb-2">
                                         <button
                                             className="flex cursor-pointer px-7 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover-bg-indigo-500 active-bg-indigo-700 md-text-sm"
                                             onClick={handleDownloadClick}
@@ -644,17 +644,17 @@ const Landing = () => {
                             <table className="border-2 border-black mx-auto">
                                 <tbody>
                                     <tr>
-                                        <td className="border-2 border-black p-6 md:px-40 px-8 text-center">
-                                            <div className='text-6xl font-bold font-serif'>
+                                        <td className="border-2 border-black md:p-6 p-0 md:px-40 text-center ">
+                                            <div className='md:text-6xl text-5xl font-bold font-serif'>
                                                 JAI LIME & CHEMICAL
                                             </div>
-                                            <div className='text-xl'>
+                                            <div className='md:text-xl text-lg'>
                                                 H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
                                             </div>
-                                            <div className='text-xl'>
+                                            <div className='md:text-xl text-lg'>
                                                 Mo. : 99508 35585, 85296 22695
                                             </div>
-                                            <div className='text-xl'>
+                                            <div className='md:text-xl text-lg'>
                                                 GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
                                             </div>
                                         </td>
@@ -678,7 +678,7 @@ const Landing = () => {
                             <div className="mt-2 font-medium print:hidden">
                                 Old Due Balance: {initialBalance.toLocaleString('en-IN')} &nbsp;&nbsp;&nbsp; Total DR: {totalDR.toLocaleString('en-IN')} &nbsp;&nbsp;&nbsp; Total CR: {totalCR.toLocaleString('en-IN')}
                             </div>
-                            <div className='flex mt-4 p-4 border rounded-lg print:hidden'>
+                            <div className=' mt-4 p-4 border rounded-lg print:hidden'>
                                 <label className="mr-4 text-lg">Start Date:</label>
                                 <input
                                     type="text"
@@ -732,24 +732,24 @@ const Landing = () => {
                                 <table className="w-full table-auto text-sm text-left">
                                     <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                         <tr className='divide-x'>
-                                            <th className="py-3 px-2 text-2xl print:hidden">NO.</th>
-                                            <th className="py-3 px-2 text-2xl">S. NO.</th>
-                                            <th className="py-3 px-6 text-2xl">Sales Date</th>
-                                            <th className="py-3 px-2 text-2xl">Driver Name</th>
-                                            <th className="py-3 px-6 text-2xl">Auto No.</th>
-                                            <th className="py-3 px-6 text-2xl">Lime (A)</th>
-                                            <th className="py-3 px-6 text-2xl">Lime (W)</th>
-                                            <th className="py-3 px-6 text-2xl">Lime (B)</th>
-                                            <th className="py-3 px-6 text-2xl">Lime (OFF_W)</th>
-                                            <th className="py-3 px-6 text-2xl">Jhiki (झिकीं)</th>
-                                            <th className="py-3 px-6 text-2xl">Aaras (आरस)</th>
-                                            <th className="py-3 px-6 text-2xl">Site Address</th>
-                                            <th className="py-3 px-6 text-2xl">Amount</th>
-                                            <th className="py-3 px-2 text-2xl">Labour Charge</th>
-                                            <th className="py-3 px-2 text-2xl">Auto Charge</th>
-                                            <th className="py-3 px-2 text-2xl">Extra Charges</th>
+                                            <th className="py-3 px-2 md:text-2xl print:hidden">NO.</th>
+                                            <th className="py-3 px-2 md:text-2xl">S. NO.</th>
+                                            <th className="py-3 px-6 md:text-2xl">Sales Date</th>
+                                            <th className="py-3 px-2 md:text-2xl">Driver Name</th>
+                                            <th className="py-3 px-6 md:text-2xl">Auto No.</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (A)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (W)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (B)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (OFF_W)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Jhiki (झिकीं)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Aaras (आरस)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Site Address</th>
+                                            <th className="py-3 px-6 md:text-2xl">Amount</th>
+                                            <th className="py-3 px-2 md:text-2xl">Labour Charge</th>
+                                            <th className="py-3 px-2 md:text-2xl">Auto Charge</th>
+                                            <th className="py-3 px-2 md:text-2xl">Extra Charges</th>
                                             <th
-                                                className={`py-3 px-6 text-2xl ${drArrowClass}`}
+                                                className={`py-3 px-6 md:text-2xl ${drArrowClass}`}
                                                 onClick={handleDRArrowClick}
                                             >
                                                 <div className='flex'>
@@ -760,7 +760,7 @@ const Landing = () => {
                                                 </div>
                                             </th>
                                             <th
-                                                className={`py-3 px-6 text-2xl ${crArrowClass}`}
+                                                className={`py-3 px-6 md:text-2xl ${crArrowClass}`}
                                                 onClick={handleCRArrowClick}
                                             >
                                                 <div className='flex'>
@@ -770,8 +770,8 @@ const Landing = () => {
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th className="py-3 px-6 text-2xl">Balance (शेष)</th>
-                                            <th className="py-3 px-6 text-2xl print:hidden">Generate Bill</th>
+                                            <th className="py-3 px-6 md:text-2xl">Balance (शेष)</th>
+                                            <th className="py-3 px-6 md:text-2xl print:hidden">Generate Bill</th>
                                             <th className="py-3 px-6 print:hidden "></th>
                                         </tr>
                                     </thead>
@@ -780,66 +780,66 @@ const Landing = () => {
                                         {customer && customer.data
                                             ? (paginatedFilteredData).map((item, idx) => (
                                                 <tr key={idx} className="divide-x">
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl print:hidden">{idx + 1}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl print:hidden">{idx + 1}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.salesdate && !isNaN(new Date(item.salesdate).getTime()) ? format(new Date(item.salesdate), 'dd/MM/yy') : '-'}
                                                     </td>
 
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.drivername === '' ? '-' : item.drivername}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.autono === '' ? '-' : item.autono}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">{item.autono === '' ? '-' : item.autono}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.Limea ? (
                                                             `${item.Limea} X ${item.LimeaPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.Limew ? (
                                                             `${item.Limew} X ${item.LimewPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.Limeb ? (
                                                             `${item.Limeb} X ${item.LimebPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.Limeoffw ? (
                                                             `${item.Limeoffw} X ${item.LimeoffwPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.jhiki ? (
                                                             `${item.jhiki} X ${item.jhikiPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.rs ? (
                                                             `${item.rs} KG X ${item.rsPrice}`
                                                         ) : '-'}
                                                     </td>
 
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.siteaddress === '' ? '-' : item.siteaddress}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
                                                     </td>
 
 
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
 
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">{item.dr}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">{item.dr}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
                                                     </td>
 
 
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
                                                         {item.balance < 0
                                                             ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
                                                             : formatDecimalWithCommasAndDecimals(item.balance)}
@@ -876,7 +876,7 @@ const Landing = () => {
 
 
                             </div>
-                            <div className='text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
+                            <div className='md:text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
 
 
                         </div>
@@ -1106,14 +1106,14 @@ const Landing = () => {
                             <button
                                 onClick={goToFirstPage}
                                 disabled={currentPage === 1}
-                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
                             >
                                 First Page
                             </button>
                             <button
                                 onClick={prevPage}
                                 disabled={currentPage === 1}
-                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
                             >
                                 Previous Page
                             </button>
@@ -1123,20 +1123,18 @@ const Landing = () => {
                             <button
                                 onClick={nextPage}
                                 disabled={currentPage === totalPages}
-                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
                             >
                                 Next Page
                             </button>
                             <button
                                 onClick={goToLastPage}
                                 disabled={currentPage === totalPages}
-                                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 font-bold"
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
                             >
                                 Last Page
                             </button>
                         </div>
-
-
                         <div className="mt-10 py-4 border-t md:text-center">
                             <p className='text-center'>© 2023  Jai Lime & Chemical. All rights reserved.</p>
                         </div>
