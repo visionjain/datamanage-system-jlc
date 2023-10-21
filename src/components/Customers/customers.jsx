@@ -379,7 +379,7 @@ const Customers = ({ customer }) => {
                         </div>
                     ) : (
                         <div>
-                            <div className='bg-[#F4F4F4] text-black print:hidden md:h-[22vh] h-[40vh] border-b border-gray-400 shadow-lg'>
+                            <div className='bg-[#F4F4F4] text-black print:hidden md:h-[22vh] h-[50vh] border-b border-gray-400 shadow-lg'>
                                 <div className='md:flex'>
                                     <div className='md:w-1/6'>
                                         <Image
@@ -408,7 +408,7 @@ const Customers = ({ customer }) => {
                                         <div className='w-2/6 '>
                                             <button
                                                 onClick={handleLogout}
-                                                className="logout-button bg-[#494949] text-white p-3 md:ml-40 ml-44 md:mt-10 mt-4 md:w-20 md:h-20 w-18 h-18 rounded-full flex flex-col items-center justify-center text-center"
+                                                className="logout-button bg-[#494949] text-white p-3 md:ml-40 ml-40 md:mt-10 mt-4 md:w-20 md:h-20 w-18 h-18 rounded-full flex flex-col items-center justify-center text-center"
                                             >
                                                 <div className="flex items-center justify-center">
                                                     <HiOutlineLogout className='md:w-6 md:h-6 w-6 h-6' />
