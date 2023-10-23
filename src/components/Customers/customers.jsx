@@ -672,7 +672,7 @@ const Customers = ({ customer }) => {
             )}
             {role === 'user' && (
                 <div>
-                    <h1>ERROR - Please Reload</h1>
+                    <h1>Loading.....</h1>
                 </div>
             )}
         </div>
