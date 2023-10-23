@@ -709,21 +709,21 @@ const Landing = () => {
                                     Clear Filter
                                 </button>
                                 <div className="ml-10 font-medium print:hidden">
-                                <label htmlFor="itemsPerPage">Rows per page:</label>
-                                <select
-                                    id="itemsPerPage"
-                                    name="itemsPerPage"
-                                    value={itemsPerPage}
-                                    onChange={handleItemsPerPageChange}
-                                    className="ml-2 bg-white border border-gray-300 rounded-md px-2 py-1"
-                                >
-                                    <option value={15}>15</option>
-                                    <option value={30}>30</option>
-                                    <option value={50}>50</option>
-                                    <option value={100}>100</option>
-                                    <option value={customer.data ? customer.data.length : 0}>All</option>
-                                </select>
-                            </div>
+                                    <label htmlFor="itemsPerPage">Rows per page:</label>
+                                    <select
+                                        id="itemsPerPage"
+                                        name="itemsPerPage"
+                                        value={itemsPerPage}
+                                        onChange={handleItemsPerPageChange}
+                                        className="ml-2 bg-white border border-gray-300 rounded-md px-2 py-1"
+                                    >
+                                        <option value={15}>15</option>
+                                        <option value={30}>30</option>
+                                        <option value={50}>50</option>
+                                        <option value={100}>100</option>
+                                        <option value={customer.data ? customer.data.length : 0}>All</option>
+                                    </select>
+                                </div>
                             </div>
 
 
@@ -1151,192 +1151,204 @@ const Landing = () => {
 
 
                 {role === 'user' && (
-                    <div>
-                        <div className='pt-10'>
-                            <div className="w-full px-4 md:px-8">
-                                <div className="items-start justify-between md:flex">
-                                    <div>
-                                        <Image
-                                            src={jlc}
-                                            width={150}
-                                            height={200}
-                                            className='absolute md:ml-6 md:w-52 w-24 top-5'
-                                            alt="Logo"
-                                        />
-                                    </div>
+                    <div className='pt-10'>
+                        <div className="w-full px-4 md:px-8">
+                            <div className="items-start justify-between md:flex">
+                                <div className='md:pb-0 pb-16'>
+                                    <Image
+                                        src={jlc}
+                                        width={150}
+                                        height={200}
+                                        className='absolute md:ml-6 md:w-52 w-24 ml-36 top-5'
+                                        alt="Logo"
+                                    />
                                 </div>
-                                <div className='justify-end flex'><LogoutButton /></div>
-                                <table className="border-2 border-black mx-auto md:mt-20 mt-8">
-                                    <tbody>
-                                        <tr>
-                                            <td className="border-2 border-black md:p-6 md:px-40 text-center">
-                                                <div className='md:text-6xl text-5xl font-bold font-serif'>
-                                                    JAI LIME & CHEMICAL
+                                <div className="mt-3 mb-3 md:mt-0 print:hidden">
+                                    <LogoutButton />
+                                </div>
+                            </div>
+                            <table className="border-2 border-black mx-auto">
+                                <tbody>
+                                    <tr>
+                                        <td className="border-2 border-black md:p-6 p-0 md:px-40 text-center ">
+                                            <div className='md:text-6xl text-5xl font-bold font-serif'>
+                                                JAI LIME & CHEMICAL
+                                            </div>
+                                            <div className='md:text-xl text-lg'>
+                                                H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                            </div>
+                                            <div className='md:text-xl text-lg'>
+                                                Mo. : 99508 35585, 85296 22695
+                                            </div>
+                                            <div className='md:text-xl text-lg'>
+                                                GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="max-w-lg mt-10 mb-10">
+                                <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
+                                    {customer.customername}&apos;s खाता
+                                </h3>
+                            </div>
+                            <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto mb-10">
+                                <table className="w-full table-auto text-sm text-left">
+                                    <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                                        <tr className='divide-x'>
+
+                                            <th className="py-3 px-2 md:text-2xl">S. NO.</th>
+                                            <th className="py-3 px-6 md:text-2xl">Sales Date</th>
+                                            <th className="py-3 px-2 md:text-2xl">Driver Name</th>
+                                            <th className="py-3 px-6 md:text-2xl">Auto No.</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (A)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (W)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (B)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Lime (OFF_W)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Jhiki (झिकीं)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Aaras (आरस)</th>
+                                            <th className="py-3 px-6 md:text-2xl">Site Address</th>
+                                            <th className="py-3 px-6 md:text-2xl">Amount</th>
+                                            <th className="py-3 px-2 md:text-2xl">Labour Charge</th>
+                                            <th className="py-3 px-2 md:text-2xl">Auto Charge</th>
+                                            <th className="py-3 px-2 md:text-2xl">Extra Charges</th>
+                                            <th
+                                                className={`py-3 px-6 md:text-2xl `}
+
+                                            >
+                                                <div className='flex'>
+                                                    DR (बकाया)
+
                                                 </div>
-                                                <div className='text-xl'>
-                                                    H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
+                                            </th>
+                                            <th
+                                                className={`py-3 px-6 md:text-2xl `}
+
+                                            >
+                                                <div className='flex'>
+                                                    CR (जमा)
+
                                                 </div>
-                                                <div className='text-xl'>
-                                                    Mo. : 99508 35585, 85296 22695
-                                                </div>
-                                                <div className='text-xl'>
-                                                    GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
-                                                </div>
-                                            </td>
+                                            </th>
+                                            <th className="py-3 px-6 md:text-2xl">Balance (शेष)</th>
                                         </tr>
+                                    </thead>
+                                    <tbody className="text-gray-600 divide-y">
+
+                                        {customer && customer.data
+                                            ? (paginatedFilteredData).map((item, idx) => (
+                                                <tr key={idx} className="divide-x">
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.salesdate && !isNaN(new Date(item.salesdate).getTime()) ? format(new Date(item.salesdate), 'dd/MM/yy') : '-'}
+                                                    </td>
+
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.drivername === '' ? '-' : item.drivername}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">{item.autono === '' ? '-' : item.autono}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.Limea ? (
+                                                            `${item.Limea} X ${item.LimeaPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.Limew ? (
+                                                            `${item.Limew} X ${item.LimewPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.Limeb ? (
+                                                            `${item.Limeb} X ${item.LimebPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.Limeoffw ? (
+                                                            `${item.Limeoffw} X ${item.LimeoffwPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.jhiki ? (
+                                                            `${item.jhiki} X ${item.jhikiPrice}`
+                                                        ) : '-'}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.rs ? (
+                                                            `${item.rs} KG X ${item.rsPrice}`
+                                                        ) : '-'}
+                                                    </td>
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.siteaddress === '' ? '-' : item.siteaddress}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
+                                                    </td>
+
+
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">{item.dr}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
+                                                    </td>
+
+
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                        {item.balance < 0
+                                                            ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
+                                                            : formatDecimalWithCommasAndDecimals(item.balance)}
+                                                    </td>
+
+                                                </tr>
+                                            )) : null}
                                     </tbody>
                                 </table>
-                                <div className="w-[94vw] md:mt-10 mt-4">
-                                    <h3 className="md:flex text-gray-800 text-xl font-bold sm:text-4xl">
-                                        {customer.customername} खाता
-                                        <div className='md:ml-[55vw] mt-3 md:mt-0'>
-                                            <h3 className="w-72 md:w-[100%] text-gray-800 text-xl font-bold sm:text-4xl border-black border-4 py-2 px-2 rounded-xl">
-                                                Balance (शेष): {formattedLastRowBalance} INR
-                                            </h3>
-                                        </div>
-                                    </h3>
-
-                                </div>
 
 
-                                <div className="md:mt-12 mt-6 shadow-sm border rounded-lg overflow-x-auto mb-10">
-                                    <table className="w-full table-auto text-sm text-left">
-                                        <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                                            <tr className='divide-x'>
-                                                {/* <th className="py-3 px-2 text-2xl print:hidden">NO.</th> */}
-                                                <th className="py-3 px-2 md:text-2xl text-sm">S. NO.</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Sales Date</th>
-                                                <th className="py-3 px-2 md:text-2xl text-sm">Driver Name</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Auto No.</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Lime (A)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Lime (W)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Lime (B)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Lime (OFF_W)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Jhiki (झिकीं)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Aaras (आरस)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Site Address</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Amount</th>
-                                                <th className="py-3 px-2 md:text-2xl text-sm">Labour Charge</th>
-                                                <th className="py-3 px-2 md:text-2xl text-sm">Auto Charge</th>
-                                                <th className="py-3 px-2 md:text-2xl text-sm">Extra Charges</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">DR (बकाया)</th>
-                                                <th className="py-3 px-2 md:text-2xl text-sm">CR (जमा)</th>
-                                                <th className="py-3 px-6 md:text-2xl text-sm">Balance (शेष)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="text-gray-600 divide-y">
-
-                                            {customer && customer.data && paginatedTableItems
-                                                ? paginatedTableItems.map((item, idx) => (
-                                                    <tr key={idx} className="divide-x">
-                                                        {/* <td className="px-2 py-4 whitespace-nowrap font-bold text-2xl print:hidden">{idx + 1}</td> */}
-                                                        <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl text-lg"> {item.numberid === '' ? '-' : item.numberid}</td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg"> {item.salesdate === '' ? '-' : item.salesdate}</td>
-                                                        <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.drivername === '' ? '-' : item.drivername}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">{item.autono === '' ? '-' : item.autono}</td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.Limea ? (
-                                                                `${item.Limea} X ${item.LimeaPrice}`
-                                                            ) : '-'}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.Limew ? (
-                                                                `${item.Limew} X ${item.LimewPrice}`
-                                                            ) : '-'}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.Limeb ? (
-                                                                `${item.Limeb} X ${item.LimebPrice}`
-                                                            ) : '-'}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.Limeoffw ? (
-                                                                `${item.Limeoffw} X ${item.LimeoffwPrice}`
-                                                            ) : '-'}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.jhiki ? (
-                                                                `${item.jhiki} X ${item.jhikiPrice}`
-                                                            ) : '-'}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.rs ? (
-                                                                `${item.rs} KG X ${item.rsPrice}`
-                                                            ) : '-'}
-                                                        </td>
-
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.siteaddress === '' ? '-' : item.siteaddress}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
-                                                        </td>
-
-
-                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl text-lg">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
-                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl text-lg">{item.autocharge === '' ? '-' : item.autocharge}</td>
-                                                        <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl text-lg">{item.extracharge === '' ? '-' : item.extracharge}</td>
-
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">{item.dr}</td>
-                                                        <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
-                                                        </td>
-
-
-                                                        <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl text-lg">
-                                                            {item.balance < 0
-                                                                ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
-                                                                : formatDecimalWithCommasAndDecimals(item.balance)}
-                                                        </td>
-                                                    </tr>
-                                                )) : null}
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-                                <div className='md:text-2xl text-lg mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
                             </div>
-                            <div className="flex justify-center space-x-2 print:hidden mr-2 ml-2 pt-4">
-                                <button
-                                    onClick={goToFirstPage}
-                                    disabled={currentPage === 1}
-                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
-                                >
-                                    First Page
-                                </button>
-                                <button
-                                    onClick={prevPage}
-                                    disabled={currentPage === 1}
-                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
-                                >
-                                    Previous Page
-                                </button>
-                                <span className="text-gray-600">
-                                    Page {currentPage} of {totalPages}
-                                </span>
-                                <button
-                                    onClick={nextPage}
-                                    disabled={currentPage === totalPages}
-                                    className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
-                                >
-                                    Next Page
-                                </button>
-                                <button
-                                    onClick={goToLastPage}
-                                    disabled={currentPage === totalPages}
-                                    className="px-4 py-2  text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
-                                >
-                                    Last Page
-                                </button>
-                            </div>
+                            <div className='md:text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
 
 
-                            <div className="mt-10 py-4 border-t md:text-center">
-                                <p className='text-center'>© 2023  Jai Lime & Chemical. All rights reserved.</p>
-                            </div>
+                        </div>
+
+                        <div className="flex justify-center space-x-2 print:hidden">
+                            <button
+                                onClick={goToFirstPage}
+                                disabled={currentPage === 1}
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
+                            >
+                                First Page
+                            </button>
+                            <button
+                                onClick={prevPage}
+                                disabled={currentPage === 1}
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
+                            >
+                                Previous Page
+                            </button>
+                            <span className="text-gray-600">
+                                Page {currentPage} of {totalPages}
+                            </span>
+                            <button
+                                onClick={nextPage}
+                                disabled={currentPage === totalPages}
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
+                            >
+                                Next Page
+                            </button>
+                            <button
+                                onClick={goToLastPage}
+                                disabled={currentPage === totalPages}
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
+                            >
+                                Last Page
+                            </button>
+                        </div>
+                        <div className="mt-10 py-4 border-t md:text-center">
+                            <p className='text-center'>© 2023  Jai Lime & Chemical. All rights reserved.</p>
                         </div>
                     </div>
                 )}
