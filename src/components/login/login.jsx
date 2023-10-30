@@ -52,8 +52,8 @@ const Login = () => {
                     <div className="text-center"> 
                         <Image
                             src="/loginicon.png"
-                            width={150}
-                            height={150}
+                            width={200}
+                            height={200}
                             className='mx-auto'
                             alt="Logo"
                         />
