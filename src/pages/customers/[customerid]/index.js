@@ -1159,11 +1159,11 @@ const Landing = () => {
                                         src={jlc}
                                         width={150}
                                         height={200}
-                                        className='absolute md:ml-6 md:w-52 w-24 ml-36 top-5'
+                                        className='absolute md:ml-6 md:w-40 w-24 ml-32 top-5'
                                         alt="Logo"
                                     />
                                 </div>
-                                <div className="mt-3 mb-3 md:mt-0 print:hidden">
+                                <div className="mt-3 mb-3 md:mt-0 md:ml-0 ml-28 print:hidden">
                                     <LogoutButton />
                                 </div>
                             </div>
@@ -1191,6 +1191,37 @@ const Landing = () => {
                                 <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
                                     {customer.customername}&apos;s खाता
                                 </h3>
+                            </div>
+                            <div className=' mt-4 p-4 border rounded-lg print:hidden '>
+                                <label className="mr-4 text-lg">Start Date:</label>
+                                <input
+                                    type="text"
+                                    style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px', margin: '2px' }}
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    placeholder='dd/mm/yy'
+                                />
+                                <label className="ml-4 mr-4 text-lg">End Date:</label>
+                                <input
+                                    type="text"
+                                    style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px', margin: '2px' }}
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    placeholder='dd/mm/yy'
+                                />
+
+                                <button
+                                    onClick={applyDateRangeFilter}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md ml-8 md:mt-0 mt-2"
+                                >
+                                    Apply Filter
+                                </button>
+                                <button
+                                    onClick={clearFilter}
+                                    className="bg-red-500 hover.bg-red-700 text-white font-bold py-2 px-4 rounded-md ml-4"
+                                >
+                                    Clear Filter
+                                </button>
                             </div>
                             <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto mb-10">
                                 <table className="w-full table-auto text-sm text-left">
