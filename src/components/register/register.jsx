@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import jlc from '../../../public/jlc.png'
+import jlc from '../../../public/logojlc.png'
 
 const Register = () => {
     const [userid, setUsername] = useState('');

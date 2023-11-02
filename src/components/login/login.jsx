@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import jlc from "../../../public/logojlc.png";
-import { useRouter } from 'next/router';
+import { useRouter} from 'next/router';
 import axios from 'axios';
 
 const Login = () => {
     const router = useRouter();
     const [error, setError] = useState(''); // State variable to track error message
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            // If a token is found, the user is already logged in, so redirect to the "selector" page
+            router.push('/selector');
+        }
+    }, [router]); 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
