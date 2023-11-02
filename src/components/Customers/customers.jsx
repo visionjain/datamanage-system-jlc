@@ -8,7 +8,7 @@ import Image from 'next/image';
 import jlc from "../../../public/logojlc.png"
 import { HiOutlineLogout } from 'react-icons/hi';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
-import { AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineUserAdd, AiOutlineArrowRight } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
@@ -365,7 +365,9 @@ const Customers = ({ customer }) => {
         // Redirect to the login page or any other desired location
         router.push('/login');
     };
-
+    const handleTodaysDataClick = () => {
+        router.push('/todaydata');
+      };
 
 
 
@@ -444,7 +446,7 @@ const Customers = ({ customer }) => {
                                 <div className="w-full md:w-1/2 mt-4">
                                     <div className="flex flex-col md:flex-row justify-center md:justify-start print:hidden">
                                         <div className="w-full md:w-1/2">
-                                            <div className="text-center border-2 border-gray-400 w-80 md:w-64 rounded-xl shadow-xl p-4 md:ml-60 ml-10">
+                                            <div className="text-center border-2 border-gray-400 w-80 md:w-64 rounded-xl shadow-xl p-4 md:ml-60 ml-10 md:mt-5">
                                                 <h2 className="text-xl font-semibold mb-2">Total Pending Balances</h2>
                                                 <div className="text-2xl font-bold italic">INR {calculateTotalBalance(customerData)}/-</div>
                                             </div>
@@ -464,6 +466,14 @@ const Customers = ({ customer }) => {
                                                     className="flex bg-[#FF7A00D9] text-white px-4 py-2 rounded-full ml-4 md:ml-40 print:hidden shadow-sm shadow-[#FF7A00D9]"
                                                 >
                                                     Print Table <BsPrinter className='w-6 h-6 ml-9' />
+                                                </button>
+                                            </div>
+                                            <div className="mt-4 md:mt-2">
+                                                <button
+                                                    className="flex bg-[#7752FE] text-white px-4 py-2 text-sm font-normal rounded-full ml-4 md:ml-40 print:hidden shadow-sm shadow-[#7752FE]"
+                                                    onClick={handleTodaysDataClick}
+                                                >
+                                                    Todays Data<AiOutlineArrowRight className='w-6 h-6 ml-9' />
                                                 </button>
                                             </div>
                                         </div>
