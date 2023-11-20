@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import jlc from "../../../public/logojlc.png";
 import { useRouter} from 'next/router';
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from 'axios';
 
 const Login = () => {
     const router = useRouter();
     const [error, setError] = useState(''); // State variable to track error message
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -86,17 +88,41 @@ const Login = () => {
                             />
                         </div>
                         <div>
-                            <label className="font-medium">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                name='password'
-                                placeholder='Type your password'
-                                required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                            />
-                        </div>
+        <label className="font-medium">
+          Password
+        </label>
+        <div className="relative">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name='password'
+            placeholder='Type your password'
+            required
+            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+          />
+          {/* Eye button to toggle password visibility */}
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute top-0 right-0 mt-3 mr-3 focus:outline-none"
+          >
+            
+
+            <svg
+              className="w-8 h-8 mt-1 text-gray-500 hover:text-indigo-600 cursor-pointer"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {showPassword ? (
+                <FaRegEye />
+              ) : (
+                <FaRegEyeSlash />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
                         {error && ( // Conditional rendering of error message
                             <div className="text-red-500">{error}</div>
                         )}
