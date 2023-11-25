@@ -11,6 +11,7 @@ import { HiMagnifyingGlass } from 'react-icons/hi2';
 import { AiOutlineUserAdd, AiOutlineArrowRight } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import LogoutButton from './LogoutButton';
 
 
 const Customers = ({ customer }) => {
@@ -367,7 +368,7 @@ const Customers = ({ customer }) => {
     };
     const handleTodaysDataClick = () => {
         router.push('/todaydata');
-      };
+    };
 
 
 
@@ -682,7 +683,8 @@ const Customers = ({ customer }) => {
             )}
             {role === 'user' && (
                 <div>
-                    <h1>Loading.....</h1>
+                    <h1>Loading....</h1>
+                    <button onClick={handleLogout} className='bg-red-500 font-semibold p-2 rounded-xl border border-black'>Logout</button>
                 </div>
             )}
         </div>

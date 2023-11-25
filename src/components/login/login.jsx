@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import jlc from "../../../public/logojlc.png";
-import { useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from 'axios';
+import Link from 'next/link';
 
 const Login = () => {
     const router = useRouter();
@@ -16,7 +17,7 @@ const Login = () => {
             // If a token is found, the user is already logged in, so redirect to the "selector" page
             router.push('/selector');
         }
-    }, [router]); 
+    }, [router]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -46,6 +47,10 @@ const Login = () => {
         }
     };
 
+    const reg = () => {
+        router.push('/phoneverify');
+    }
+
     return (
         <div>
             <div>
@@ -59,7 +64,7 @@ const Login = () => {
             </div>
             <main className="w-full h-screen flex flex-col items-center justify-center px-4">
                 <div className="max-w-sm w-full text-gray-600 space-y-8">
-                    <div className="text-center"> 
+                    <div className="text-center">
                         <Image
                             src="/loginicon.png"
                             width={200}
@@ -77,7 +82,7 @@ const Login = () => {
                     >
                         <div>
                             <label className="font-medium">
-                                Username
+                                Phone Number
                             </label>
                             <input
                                 type="text"
@@ -88,50 +93,55 @@ const Login = () => {
                             />
                         </div>
                         <div>
-        <label className="font-medium">
-          Password
-        </label>
-        <div className="relative">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            name='password'
-            placeholder='Type your password'
-            required
-            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-          />
-          {/* Eye button to toggle password visibility */}
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute top-0 right-0 mt-3 mr-3 focus:outline-none"
-          >
-            
+                            <label className="font-medium">
+                                Password
+                            </label>
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name='password'
+                                    placeholder='Type your password'
+                                    required
+                                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                />
+                                {/* Eye button to toggle password visibility */}
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute top-0 right-0 mt-3 mr-3 focus:outline-none"
+                                >
 
-            <svg
-              className="w-8 h-8 mt-1 text-gray-500 hover:text-indigo-600 cursor-pointer"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {showPassword ? (
-                <FaRegEye />
-              ) : (
-                <FaRegEyeSlash />
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
+
+                                    <svg
+                                        className="w-8 h-8 mt-1 text-gray-500 hover:text-indigo-600 cursor-pointer"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        {showPassword ? (
+                                            <FaRegEye />
+                                        ) : (
+                                            <FaRegEyeSlash />
+                                        )}
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                         {error && ( // Conditional rendering of error message
                             <div className="text-red-500">{error}</div>
                         )}
+                        
                         <button
                             className="w-full mt-4 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 cursor-pointer"
                             type='submit'
                         >
                             Log In
                         </button>
+                        <p className="mt-2 text-center text-sm text-gray-500">
+                            Not yet Registered?
+                            <a onClick={reg} className="cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Register Here</a>
+                        </p>
                     </form>
                 </div>
             </main>

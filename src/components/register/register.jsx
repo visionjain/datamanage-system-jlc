@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import jlc from '../../../public/logojlc.png'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 const Register = () => {
     const [userid, setUsername] = useState('');
@@ -10,9 +11,27 @@ const Register = () => {
     const [referralCode, setReferralCode] = useState('');
     const [error, setError] = useState('');
     const [showAlert, setShowAlert] = useState(false);
-
+    const [userPhoneNumber, setUserPhoneNumber] = useState('');
 
     const router = useRouter(); // Initialize the Next.js router
+    const auth = getAuth();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, you can access user.phoneNumber
+                const phoneNumber = user.phoneNumber;
+                const withoutCountryCode = phoneNumber.substring(3); // Remove the first three characters (+91)
+                setUserPhoneNumber(withoutCountryCode);
+            } else {
+                // User is signed out
+                setUserPhoneNumber('');
+            }
+        });
+
+        // Cleanup the subscription when the component unmounts
+        return () => unsubscribe();
+    }, [auth]);
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // You can also use cookies for this
@@ -29,7 +48,7 @@ const Register = () => {
 
         try {
             const response = await axios.post('/api/register', {
-                userid,
+                userid: userPhoneNumber,
                 password,
                 referralCode,
             });
@@ -41,9 +60,6 @@ const Register = () => {
                 setSuccessMessage('Registration successful');
                 // Save the JWT token in local storage (you can also use cookies)
                 localStorage.setItem('token', response.data.token);
-
-                // Redirect the user to a protected page (e.g., /selector)
-                router.push('/selector');
             } else {
                 // Handle unexpected response status
                 setError('Error Occured');
@@ -51,15 +67,14 @@ const Register = () => {
 
         } catch (err) {
             if (err.response && err.response.status === 500) {
-                setError('User already exists');
+                setError('User already exists! Please Login');
+                setTimeout(() => {
+                    router.push('/login');
+                }, 2000);
             } else {
                 // Handle other registration errors, if any
                 setError(err.response ? err.response.data.error : 'Registration successful');
-                setTimeout(() => {
-                    if (err.response && err.response.status == 201) {
-                        router.push('/login');
-                    }
-                }, 2000);
+                router.push('/login');
             }
 
             // Set a timeout to clear the error message after 2 seconds
@@ -69,7 +84,18 @@ const Register = () => {
         }
     };
 
+    const reg = () => {
+        router.push('/login')
+    };
 
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            router.push('/phoneverify');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
 
     return (
@@ -112,15 +138,18 @@ const Register = () => {
                         )}
                         <div>
                             <label className="font-medium">Username</label>
-                            <input
-                                type="text"
-                                name='userid'
-                                placeholder='Type your username'
-                                required
-                                value={userid}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                            />
+                            <div className="flex">
+                                <input
+                                    type="text"
+                                    name='userid'
+                                    placeholder='Type your username'
+                                    required
+                                    value={userPhoneNumber} // Use the user's phone number as the username
+                                    readOnly
+                                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                />
+                                <button onClick={handleLogout} className="text-sm bg-green-500 text-black font-semibold rounded-xl w-30 mt-2 ml-1 h-10">Change Number</button>
+                            </div>
                         </div>
                         <div>
                             <label className="font-medium">Password</label>
@@ -153,6 +182,10 @@ const Register = () => {
                         >
                             Register
                         </button>
+                        <p className="mt-2 text-center text-sm text-gray-500">
+                            Already registered?
+                            <a onClick={reg} className="cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Login Here</a>
+                        </p>
                     </form>
                 </div>
             </main>
