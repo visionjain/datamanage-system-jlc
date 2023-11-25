@@ -8,9 +8,10 @@ const firebaseConfig = {
   projectId: "jailime-rohit",
   storageBucket: "jailime-rohit.appspot.com",
   messagingSenderId: "351405839349",
-  appId: "1:351405839349:web:d6e3df0ea15bbbfa8cc6bc",
-  measurementId: "G-287XRW3X0L"
+  appId: "1:351405839349:web:474bcd708fc259048cc6bc",
+  measurementId: "G-SHGBWXSW4M"
 };
+
 
 
 const app = initializeApp(firebaseConfig);
