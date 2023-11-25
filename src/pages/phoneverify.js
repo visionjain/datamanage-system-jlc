@@ -1,7 +1,7 @@
 import Otplogin from '@/components/login/otplogin'
 import React, { useState, useEffect, use } from 'react';
 import { getAuth, onAuthStateChanged} from 'firebase/auth';
-import { app } from './config';
+import { app } from '../components/login/config';
 import { useRouter } from 'next/navigation';
 
 const Phoneverify = () => {

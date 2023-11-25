@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { app } from '../../pages/config';
+import { app } from './config';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import jlc from '../../../public/logojlc.png'
