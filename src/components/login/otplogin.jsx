@@ -112,7 +112,7 @@ const Otplogin = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col items-center md:mt-20 mt-10 md:h-[400px] h-[270px]">
+            <div className="flex flex-col items-center md:mt-20 mt-2 md:h-[400px] h-[270px]">
                 <h1 className="text-2xl font-semibold mb-4">Please verify your phone number</h1>
                 {alertMessage && (
                     <div className="bg-green-200 border border-green-500 text-green-800 px-4 py-3 rounded mb-4">
