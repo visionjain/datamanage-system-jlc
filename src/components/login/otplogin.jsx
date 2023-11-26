@@ -39,6 +39,11 @@ const Otplogin = () => {
         const newOtp = [...otp];
         newOtp[index] = value;
         setOtp(newOtp);
+
+        // Focus on the next input field when a digit is entered
+        if (index < 5 && value !== '') {
+            document.getElementById(`otp-input-${index + 1}`).focus();
+        }
     };
 
     const handleSendOtp = async () => {
@@ -52,6 +57,10 @@ const Otplogin = () => {
             setAlertMessage('Failed to send OTP. Please try again.');
             console.log(error);
         }
+    };
+
+    const reg = () => {
+        router.push('/login');
     };
 
     const handleOTPSubmit = async () => {
@@ -70,15 +79,13 @@ const Otplogin = () => {
         <div className="flex flex-col items-center justify-center h-screen">
             <h1 className="text-2xl font-semibold mb-4">Please verify your phone number</h1>
             {alertMessage && (
-                <div className="bg-yellow-200 border border-green-500 text-green-800 px-4 py-3 rounded mb-4">
+                <div className="bg-green-200 border border-green-500 text-green-800 px-4 py-3 rounded mb-4">
                     {alertMessage}
                     <span className="float-right cursor-pointer" onClick={() => setAlertMessage('')}>
                     </span>
                 </div>
             )}
-            {!otpSent ? (
-                <div id="recaptcha-container"></div>
-            ) : null}
+
             <input
                 type="tel"
                 value={phoneNumber}
@@ -86,10 +93,11 @@ const Otplogin = () => {
                 placeholder='Enter Phone Number'
                 className='border border-gray-500 p-2 w-72 rounded-md mb-4'
             />
-            <div className="flex">
+            <div className="flex mb-2">
                 {otp.map((digit, index) => (
                     <input
                         key={index}
+                        id={`otp-input-${index}`}
                         type='text'
                         value={digit}
                         onChange={(e) => handleOTPChange(index, e.target.value)}
@@ -99,6 +107,9 @@ const Otplogin = () => {
                     />
                 ))}
             </div>
+            {!otpSent ? (
+                <div id="recaptcha-container" ></div>
+            ) : null}
             <button
                 onClick={otpSent ? handleOTPSubmit : handleSendOtp}
                 className={`bg-${otpSent ? 'green' : 'blue'}-500 text-white w-[280px] p-2 rounded-md mt-4`}
@@ -106,7 +117,14 @@ const Otplogin = () => {
             >
                 {otpSent ? 'Submit OTP' : 'Send OTP'}
             </button>
+            <p className="mt-2 text-center text-sm text-gray-500">
+                Already registered?
+                <a onClick={reg} className="cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Login Here</a>
+            </p>
+
+
         </div>
     );
 }
+
 export default Otplogin;

@@ -85,7 +85,7 @@ const Register = () => {
     };
 
     const reg = () => {
-        router.push('/login')
+        router.push('/login');
     };
 
     const handleLogout = async () => {
