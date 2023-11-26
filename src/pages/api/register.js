@@ -7,23 +7,16 @@ import { useRouter } from 'next/router';
 const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
-      const { userid, password, referralCode } = req.body;
+      const { userid, password } = req.body;
 
       // Check if the referral code is valid
-      if (referralCode === "GIVEMEACCESS") {
-        // Referral code is correct, proceed with registration
-        const user = new User({
-          userid,
-          password,
-        });
+      const user = new User({
+        userid,
+        password,
+      });
 
-        await user.save();
-        res.status(201).json({ success: "Registration successful" });
-      } else {
-        // Incorrect referral code
-        res.status(400).json({ error: "Invalid referral code" });
-        router.push('/register');
-      }
+      await user.save();
+      res.status(201).json({ success: "Registration successful" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal server error" });
