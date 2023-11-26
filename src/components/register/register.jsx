@@ -122,7 +122,7 @@ const Register = () => {
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <label className="font-medium">Username</label>
+                            <label className="font-medium">Phone Number</label>
                             <div className="flex">
                                 <input
                                     type="text"
