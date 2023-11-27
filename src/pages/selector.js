@@ -3,11 +3,14 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../components/Customers/useAuth';
 import LogoutButton from "../components/Customers/LogoutButton";
 import jwt from 'jsonwebtoken';
+import LoadingBar from 'react-top-loading-bar';
 
 const Selector = () => {
     const { user } = useAuth();
     const [role, setRole] = useState('');
     const router = useRouter();
+    const [progress, setProgress] = useState(0);
+
 
     useEffect(() => {
         // Get the user's role from the JWT token in local storage
@@ -37,6 +40,12 @@ const Selector = () => {
 
     return (
         <div>
+            <LoadingBar
+                color='#FF0000'
+                height='5px'
+                progress={100}
+                onLoaderFinished={() => setProgress(0)}
+            />
             {role === 'admin' && (
                 <div>
                     <div className="flex flex-col items-center justify-center h-screen">

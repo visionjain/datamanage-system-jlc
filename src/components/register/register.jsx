@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import jlc from '../../../public/logojlc.png'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import LoadingBar from 'react-top-loading-bar'
+
 
 const Register = () => {
     const [userid, setUsername] = useState('');
@@ -11,6 +13,7 @@ const Register = () => {
     const [error, setError] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [userPhoneNumber, setUserPhoneNumber] = useState('');
+    const [progress, setProgress] = useState(0);
 
     const router = useRouter(); // Initialize the Next.js router
     const auth = getAuth();
@@ -97,6 +100,12 @@ const Register = () => {
 
     return (
         <div>
+            <LoadingBar
+                color='#FF0000'
+                height='5px'
+                progress={100}
+                onLoaderFinished={() => setProgress(0)}
+            />
             <div>
                 <Image
                     src={jlc}

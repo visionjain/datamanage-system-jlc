@@ -12,6 +12,7 @@ import { AiOutlineUserAdd, AiOutlineArrowRight } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import LogoutButton from './LogoutButton';
+import LoadingBar from 'react-top-loading-bar'
 
 
 const Customers = ({ customer }) => {
@@ -239,7 +240,7 @@ const Customers = ({ customer }) => {
 
 
 
-
+    const [progress, setProgress] = useState(0)
 
 
     const [newData, setNewData] = useState({
@@ -400,6 +401,12 @@ const Customers = ({ customer }) => {
 
     return (
         <div>
+             <LoadingBar
+                        color='#FF0000'
+                        height='5px'
+                        progress={100}
+                        onLoaderFinished={() => setProgress(0)}
+                    />
             {role === 'admin' && (
                 <div>
                     {isLoading ? ( // Display loading indicator if isLoading is true

@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { app } from './config';
 import { useRouter } from 'next/navigation';
+import LoadingBar from 'react-top-loading-bar';
+import jlc from '../../../public/logojlc.png'
+import Image from "next/image";
 
 const Otplogin = () => {
     const [phoneNumber, setPhoneNumber] = useState('+91');
@@ -10,6 +13,7 @@ const Otplogin = () => {
     const [confirmationResult, setConfirmationResult] = useState(null);
     const [otpSent, setOtpSent] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
+    const [progress, setProgress] = useState(0);
 
     const auth = getAuth(app);
     const router = useRouter();
@@ -78,6 +82,18 @@ const Otplogin = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
+            <LoadingBar
+                color='#FF0000'
+                height='5px'
+                progress={100}
+                onLoaderFinished={() => setProgress(0)}
+            />
+            <Image
+                    src={jlc}
+                    width={150}
+                    height={200}
+                    alt="Logo"
+                />
             <h1 className="text-2xl font-semibold mb-4">Please verify your phone number</h1>
             {alertMessage && (
                 <div className="bg-green-200 border border-green-500 text-green-800 px-4 py-3 rounded mb-4">

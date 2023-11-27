@@ -5,12 +5,14 @@ import { useRouter } from 'next/router';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from 'axios';
 import Link from 'next/link';
+import LoadingBar from 'react-top-loading-bar'
+
 
 const Login = () => {
     const router = useRouter();
     const [error, setError] = useState(''); // State variable to track error message
     const [showPassword, setShowPassword] = useState(false);
-
+    const [progress, setProgress] = useState(0)
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -53,12 +55,18 @@ const Login = () => {
 
     return (
         <div>
+            <LoadingBar
+                color='#FF0000'
+                height='5px'
+                progress={100}
+                onLoaderFinished={() => setProgress(0)}
+            />
             <div>
                 <Image
                     src={jlc}
                     width={150}
                     height={200}
-                    className='absolute md:ml-10 md:w-40 w-24 ml-36'
+                    className='absolute md:ml-10 mt-2 md:w-40 w-24 ml-36'
                     alt="Logo"
                 />
             </div>
@@ -131,7 +139,7 @@ const Login = () => {
                         {error && ( // Conditional rendering of error message
                             <div className="text-red-500">{error}</div>
                         )}
-                        
+
                         <button
                             className="w-full mt-4 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 cursor-pointer"
                             type='submit'
