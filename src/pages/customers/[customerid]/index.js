@@ -1171,16 +1171,16 @@ const Landing = () => {
                                 <tbody>
                                     <tr>
                                         <td className="border-2 border-black md:p-6 p-0 md:px-40 text-center ">
-                                            <div className='md:text-6xl text-5xl font-bold font-serif'>
+                                            <div className='md:text-4xl text-5xl font-bold font-serif'>
                                                 JAI LIME & CHEMICAL
                                             </div>
-                                            <div className='md:text-xl text-lg'>
+                                            <div className='md:text-lg text-lg'>
                                                 H-1, 503, Road No 15, Bhamashah Ind. Area, Kaladwas, Udaipur
                                             </div>
-                                            <div className='md:text-xl text-lg'>
+                                            <div className='md:text-lg text-lg'>
                                                 Mo. : 99508 35585, 85296 22695
                                             </div>
-                                            <div className='md:text-xl text-lg'>
+                                            <div className='md:text-lg text-lg'>
                                                 GST No. 08ADVPJ9429L1ZL &nbsp; &nbsp; Email: jailime79@gmail.com
                                             </div>
                                         </td>
@@ -1188,7 +1188,7 @@ const Landing = () => {
                                 </tbody>
                             </table>
                             <div className="max-w-lg mt-10 mb-10">
-                                <h3 className="text-gray-800 text-xl font-bold sm:text-4xl mb-4">
+                                <h3 className="text-gray-800 text-xl font-bold sm:text-2xl mb-4">
                                     {customer.customername}&apos;s खाता
                                 </h3>
                             </div>
@@ -1201,7 +1201,7 @@ const Landing = () => {
                                     onChange={(e) => setStartDate(e.target.value)}
                                     placeholder='dd/mm/yy'
                                 />
-                                <label className="ml-4 mr-4 text-lg">End Date:</label>
+                                <label className="md:ml-4 mr-4 text-lg">End Date:</label>
                                 <input
                                     type="text"
                                     style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '6px', margin: '2px' }}
@@ -1228,23 +1228,23 @@ const Landing = () => {
                                     <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                         <tr className='divide-x'>
 
-                                            <th className="py-3 px-2 md:text-2xl">S. NO.</th>
-                                            <th className="py-3 px-6 md:text-2xl">Sales Date</th>
-                                            <th className="py-3 px-2 md:text-2xl">Driver Name</th>
-                                            <th className="py-3 px-6 md:text-2xl">Auto No.</th>
-                                            <th className="py-3 px-6 md:text-2xl">Lime (A)</th>
-                                            <th className="py-3 px-6 md:text-2xl">Lime (W)</th>
-                                            <th className="py-3 px-6 md:text-2xl">Lime (B)</th>
-                                            <th className="py-3 px-6 md:text-2xl">Lime (OFF_W)</th>
-                                            <th className="py-3 px-6 md:text-2xl">Jhiki (झिकीं)</th>
-                                            <th className="py-3 px-6 md:text-2xl">Aaras (आरस)</th>
-                                            <th className="py-3 px-6 md:text-2xl">Site Address</th>
-                                            <th className="py-3 px-6 md:text-2xl">Amount</th>
-                                            <th className="py-3 px-2 md:text-2xl">Labour Charge</th>
-                                            <th className="py-3 px-2 md:text-2xl">Auto Charge</th>
-                                            <th className="py-3 px-2 md:text-2xl">Extra Charges</th>
+                                            <th className="py-3 px-2">S. NO.</th>
+                                            <th className="py-3 px-6">Sales Date</th>
+                                            <th className="py-3 px-2">Driver Name</th>
+                                            <th className="py-3 px-6">Auto No.</th>
+                                            <th className="py-3 px-6">Lime (A)</th>
+                                            <th className="py-3 px-6">Lime (W)</th>
+                                            <th className="py-3 px-6">Lime (B)</th>
+                                            <th className="py-3 px-6">Lime (OFF_W)</th>
+                                            <th className="py-3 px-6">Jhiki (झिकीं)</th>
+                                            <th className="py-3 px-6">Aaras (आरस)</th>
+                                            <th className="py-3 px-6">Site Address</th>
+                                            <th className="py-3 px-6">Amount</th>
+                                            <th className="py-3 px-2">Labour Charge</th>
+                                            <th className="py-3 px-2">Auto Charge</th>
+                                            <th className="py-3 px-2">Extra Charges</th>
                                             <th
-                                                className={`py-3 px-6 md:text-2xl `}
+                                                className={`py-3 px-6 `}
 
                                             >
                                                 <div className='flex'>
@@ -1253,7 +1253,7 @@ const Landing = () => {
                                                 </div>
                                             </th>
                                             <th
-                                                className={`py-3 px-6 md:text-2xl `}
+                                                className={`py-3 px-6 `}
 
                                             >
                                                 <div className='flex'>
@@ -1261,7 +1261,7 @@ const Landing = () => {
 
                                                 </div>
                                             </th>
-                                            <th className="py-3 px-6 md:text-2xl">Balance (शेष)</th>
+                                            <th className="py-3 px-6">Balance (शेष)</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-gray-600 divide-y">
@@ -1269,65 +1269,65 @@ const Landing = () => {
                                         {customer && customer.data
                                             ? (paginatedFilteredData).map((item, idx) => (
                                                 <tr key={idx} className="divide-x">
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl"> {item.numberid === '' ? '-' : item.numberid}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold"> {item.numberid === '' ? '-' : item.numberid}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.salesdate && !isNaN(new Date(item.salesdate).getTime()) ? format(new Date(item.salesdate), 'dd/MM/yy') : '-'}
                                                     </td>
 
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold">
                                                         {item.drivername === '' ? '-' : item.drivername}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">{item.autono === '' ? '-' : item.autono}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{item.autono === '' ? '-' : item.autono}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.Limea ? (
                                                             `${item.Limea} X ${item.LimeaPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.Limew ? (
                                                             `${item.Limew} X ${item.LimewPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.Limeb ? (
                                                             `${item.Limeb} X ${item.LimebPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.Limeoffw ? (
                                                             `${item.Limeoffw} X ${item.LimeoffwPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.jhiki ? (
                                                             `${item.jhiki} X ${item.jhikiPrice}`
                                                         ) : '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.rs ? (
                                                             `${item.rs} KG X ${item.rsPrice}`
                                                         ) : '-'}
                                                     </td>
 
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.siteaddress === '' ? '-' : item.siteaddress}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {isNaN(item.amount) || item.amount === '' ? '0' : parseFloat(item.amount).toFixed(2)}
                                                     </td>
 
 
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.autocharge === '' ? '-' : item.autocharge}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center md:text-2xl">{item.extracharge === '' ? '-' : item.extracharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center">{item.labourcharge === '' ? '-' : item.labourcharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center">{item.autocharge === '' ? '-' : item.autocharge}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold text-center">{item.extracharge === '' ? '-' : item.extracharge}</td>
 
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">{item.dr}</td>
-                                                    <td className="px-2 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{item.dr}</td>
+                                                    <td className="px-2 py-4 whitespace-nowrap font-bold">
                                                         {item.cr === '' ? '0' : parseFloat(item.cr).toLocaleString('en-IN')}
                                                     </td>
 
 
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold md:text-2xl">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.balance < 0
                                                             ? `${formatDecimalWithCommasAndDecimals(Math.abs(item.balance))} ADV`
                                                             : formatDecimalWithCommasAndDecimals(item.balance)}
@@ -1340,7 +1340,7 @@ const Landing = () => {
 
 
                             </div>
-                            <div className='md:text-2xl mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
+                            <div className='mb-4'>- कृपया निवेदन है कि हिसाब में कोई भी भूल चूक होने पर फोन पर तुरंत सूचित करें ताकि समय पर सुधार हो सके !</div>
 
 
                         </div>
@@ -1349,7 +1349,7 @@ const Landing = () => {
                             <button
                                 onClick={goToFirstPage}
                                 disabled={currentPage === 1}
-                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:font-bold"
+                                className="md:px-4 md:py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-700 md:only:font-bold"
                             >
                                 First Page
                             </button>
