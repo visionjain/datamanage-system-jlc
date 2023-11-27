@@ -144,11 +144,16 @@ const Customers = ({ customer }) => {
 
     const getPasswordForCustomer = (customerId) => {
         // Check if userData is an object with a user property
-        userData && userData.user && Array.isArray(userData.user)
-        const user = userData.user.find(user => user.userid === customerId);
-        return user ? user.password : 'Not registered'; // Return the user's password or "Unregistered" if not found
+        if (userData && userData.user && Array.isArray(userData.user)) {
+            const user = userData.user.find(user => user.userid === customerId);
+            return user ? user.password : 'Unregistered'; // Return the user's password or "Unregistered" if not found
+        } else {
+            // Handle the case where userData is not in the expected format
+            console.error('userData is not in the expected format');
+            return 'Unregistered';
+        }
     };
-
+    
 
 
 
