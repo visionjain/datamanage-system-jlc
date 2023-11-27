@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { calculateDRAndBalance } from '../../../components/landing/calculateDRAndBalance';
 import { useRouter } from 'next/router';
 import ExcelGenerator from '../../../components/landing/ExcelGenerator';
@@ -492,25 +492,16 @@ const Landing = () => {
         setCurrentPage(1);
     };
 
-    const goToLastPage = () => {
+    const goToLastPage = useCallback(() => {
         setCurrentPage(totalPages);
-    };
-
-    useEffect(() => {
-        // Check if localStorage is available in the browser environment
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const savedPage = parseInt(localStorage.getItem('currentPage')) || 1;
-            setCurrentPage(savedPage);
-        }
-    }, []);
-    useEffect(() => {
-        // Check if localStorage is available in the browser environment
-        if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('currentPage', currentPage);
-        }
-    }, [currentPage]);
-
-
+      }, [totalPages]);
+    
+      useEffect(() => {
+        // Run goToLastPage once after the component is mounted
+        goToLastPage();
+      }, [goToLastPage]);
+      
+      
 
     // Function to format a decimal number with commas as thousands separators and two decimal places
     function formatDecimalWithCommasAndDecimals(number) {
