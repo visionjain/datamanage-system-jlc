@@ -20,6 +20,7 @@ const Customers = ({ customer }) => {
     const [editingIndex, setEditingIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [customerData, setCustomerData] = useState([]);
+    const [userData, setUserData] = useState([]);
     const [isAddingData, setIsAddingData] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [userid, setUserid] = useState('');
@@ -68,6 +69,18 @@ const Customers = ({ customer }) => {
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setIsLoading(false); // Turn off loading state on error as well
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/getuser');
+                setUserData(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
         };
         fetchData();
@@ -127,6 +140,14 @@ const Customers = ({ customer }) => {
         window.print();
     };
 
+
+
+    const getPasswordForCustomer = (customerId) => {
+        // Check if userData is an object with a user property
+        userData && userData.user && Array.isArray(userData.user)
+        const user = userData.user.find(user => user.userid === customerId);
+        return user ? user.password : 'Not registered'; // Return the user's password or "Unregistered" if not found
+    };
 
 
 
@@ -489,6 +510,7 @@ const Customers = ({ customer }) => {
                                             <tr>
                                                 <th className="py-3 px-6">S. NO.</th>
                                                 <th className="py-3 px-6">Customers Name</th>
+                                                <th className="py-3 px-6">Password</th>
                                                 <th className="py-3 px-6">Contact No.</th>
                                                 <th className="py-3 px-6">Last Entry Date</th>
                                                 <th className="py-3 px-6">Balance</th>
@@ -501,9 +523,8 @@ const Customers = ({ customer }) => {
                                                 <tr key={_id} className="divide-x">
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customerid}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{getPasswordForCustomer(item.phoneno)}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
-
-
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
                                                     </td>
