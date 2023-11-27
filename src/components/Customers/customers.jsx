@@ -153,7 +153,7 @@ const Customers = ({ customer }) => {
             return 'Unregistered';
         }
     };
-    
+
 
 
 
@@ -528,7 +528,11 @@ const Customers = ({ customer }) => {
                                                 <tr key={_id} className="divide-x">
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customerid}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{getPasswordForCustomer(item.phoneno)}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
+                                                        <span style={{ color: getPasswordForCustomer(item.phoneno) === 'Unregistered' ? 'red' : 'black' }}>
+                                                            {getPasswordForCustomer(item.phoneno)}
+                                                        </span>
+                                                    </td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.phoneno}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
