@@ -401,16 +401,24 @@ const Customers = ({ customer }) => {
 
     return (
         <div>
-             <LoadingBar
+            {/* <LoadingBar
                         color='#FF0000'
                         height='5px'
                         progress={100}
                         onLoaderFinished={() => setProgress(0)}
-                    />
+                    /> */}
             {role === 'admin' && (
                 <div>
                     {isLoading ? ( // Display loading indicator if isLoading is true
+
                         <div className="flex justify-center items-center h-screen">
+                            <LoadingBar
+                                color='#FF0000'
+                                height='5px'
+                                loaderSpeed='500'
+                                progress={100}
+                                onLoaderFinished={() => setProgress(0)}
+                            />
                             <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-blue-500"></div>
                         </div>
                     ) : (
@@ -720,6 +728,13 @@ const Customers = ({ customer }) => {
             )}
             {role === 'user' && (
                 <div>
+                    <LoadingBar
+                        color='#FF0000'
+                        height='5px'
+                        loaderSpeed='500'
+                        progress={100}
+                        onLoaderFinished={() => setProgress(0)}
+                    />
                     <h1>Loading....</h1>
                     <button onClick={handleLogout} className='bg-red-500 font-semibold p-2 rounded-xl border border-black'>Logout</button>
                 </div>
