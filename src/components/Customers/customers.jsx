@@ -527,14 +527,14 @@ const Customers = ({ customer }) => {
                                 <div className="mt-10 shadow-sm border rounded-lg overflow-x-auto">
                                     <table className="w-full table-auto text-sm text-left">
                                         <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                                            <tr>
+                                            <tr className='divide-x'>
                                                 <th className="py-3 px-6">S. NO.</th>
                                                 <th className="py-3 px-6">Customers Name</th>
                                                 <th className="py-3 px-6">Password</th>
                                                 <th className="py-3 px-6">Contact No.</th>
                                                 <th className="py-3 px-6">Last Entry Date</th>
                                                 <th className="py-3 px-6">Balance</th>
-                                                <th className="py-3 px-6 print:hidden">View Data</th>
+                                                <th className="py-3 px-6 print:hidden">View Data </th>
                                                 <th className="py-3 px-6 print:hidden"></th>
                                             </tr>
                                         </thead>
@@ -553,12 +553,12 @@ const Customers = ({ customer }) => {
                                                         {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap print:hidden font-bold">
+                                                    <td className="px-6 py-4 whitespace-nowrap print:hidden font-semibold">
                                                         <button
                                                             onClick={() => handleViewData(item.customerid)}
-                                                            className="px-4 py-2 text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
+                                                            className="px-4 py-2 flex text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
                                                         >
-                                                            View Data
+                                                            View Data <AiOutlineArrowRight className='w-5 h-5 ml-1' />
                                                         </button>
 
                                                     </td>
