@@ -15,6 +15,23 @@ import LogoutButton from './LogoutButton';
 import LoadingBar from 'react-top-loading-bar'
 
 
+export const calculateBalanceForCustomer = (customer) => {
+    // Check if customer is null or undefined
+    if (!customer || typeof customer !== 'object' || !customer.initialbalance) {
+        return 0; // Or handle the case where customer is not valid
+    }
+
+    let balance = parseFloat(customer.initialbalance);
+
+    for (const entry of customer.data) {
+        const dr = Math.round(parseFloat(entry.dr));
+        const cr = parseFloat(entry.cr) || 0;
+        balance += dr - cr;
+    }
+
+    return balance;
+};
+
 const Customers = ({ customer }) => {
     const { user } = useAuth();
     const [isEditing, setIsEditing] = useState(false);

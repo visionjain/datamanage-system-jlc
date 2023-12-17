@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useAuth } from '../../../../components/Customers/useAuth'
-
+import { calculateBalanceForCustomer } from '../../../../components/Customers/customers';
 const BillPage = () => {
   useAuth();
   const router = useRouter();
@@ -38,6 +38,9 @@ const BillPage = () => {
 
     fetchData();
   }, [customerid]);
+
+
+  const OldDue = calculateBalanceForCustomer(customer);
 
   const valueToNumber = (value) => {
     const numericValue = parseFloat(value);
@@ -196,7 +199,7 @@ const BillPage = () => {
                                 <td style={{ width: '20%' }} className='border-2 border-black p-2'> {item.labourcharge}</td>
                               </tr>
                               <tr>
-                                <td className='border-2 font-bold border-black p-2' colSpan="3">Old Due / पुराना बकाया</td>
+                                <td className='border-2 font-bold border-black p-2' colSpan="3">Old Due / पुराना बकाया &nbsp;&nbsp;&nbsp; -&nbsp;&nbsp; {OldDue.toLocaleString('en-IN')}/-</td>
                                 <td className='border-2 font-bold border-black p-2'>Total</td>
                                 <td className='border-2 border-black p-2'> {valueToNumber(item.amount) + valueToNumber(item.autocharge) + valueToNumber(item.labourcharge)}</td>
                               </tr>

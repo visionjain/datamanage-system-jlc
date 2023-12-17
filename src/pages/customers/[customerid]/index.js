@@ -12,9 +12,6 @@ import { format, parse, isWithinInterval } from 'date-fns';
 import { BsFillArrowUpSquareFill, BsCloudDownload, BsPrinter, BsFileEarmarkExcel } from 'react-icons/bs';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
-
-
-
 const Landing = () => {
     useAuth();
     const [customer, setCustomer] = useState(null);
