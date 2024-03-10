@@ -547,7 +547,7 @@ const Customers = ({ customer }) => {
                                             <tr className='divide-x'>
                                                 <th className="py-3 px-6">S. NO.</th>
                                                 <th className="py-3 px-6">Customers Name</th>
-                                                <th className="py-3 px-6">Password</th>
+                                                <th className="py-3 px-6 print:hidden">Password</th>
                                                 <th className="py-3 px-6">Contact No.</th>
                                                 <th className="py-3 px-6">Last Entry Date</th>
                                                 <th className="py-3 px-6">Balance</th>
@@ -560,7 +560,7 @@ const Customers = ({ customer }) => {
                                                 <tr key={_id} className="divide-x">
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customerid}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{item.customername}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold print:hidden">
                                                         <span style={{ color: getPasswordForCustomer(item.phoneno) === 'Unregistered' ? 'red' : 'black' }}>
                                                             {getPasswordForCustomer(item.phoneno)}
                                                         </span>
@@ -572,7 +572,7 @@ const Customers = ({ customer }) => {
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap print:hidden font-semibold">
                                                         <button
-                                                            onClick={() => handleViewData(item.customerid)}
+                                                            onClick={()=> handleViewData(item.customerid)}
                                                             className="px-4 py-2 flex text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
                                                         >
                                                             View Data <AiOutlineArrowRight className='w-5 h-5 ml-1' />
