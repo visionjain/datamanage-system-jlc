@@ -17,7 +17,7 @@ const Landing = () => {
         gas: '',
         cashrec: '',
         totalamount: '',
-    }); // Define setNewData here
+    });
 
     const router = useRouter();
     const labourid = router.query.labourid;
@@ -28,29 +28,23 @@ const Landing = () => {
                 const response = await axios.get('/api/getlabour');
                 const allLabourData = response.data.labour;
 
-                // Find the customer that matches the current customer ID (slug)
                 const matchingLabour = allLabourData.find(
                     (labour) => labour.labourid === labourid
                 );
 
                 if (matchingLabour) {
-                    // Calculate the initial "amount" based on "lot * 450"
                     const initialAmount = matchingLabour.lot * 450;
-
-                    // Set the "amount" and other properties in the newData state
                     setNewData({
                         date: '',
-                        lot: matchingLabour.lot, // Set the lot value
+                        lot: matchingLabour.lot,
                         wages: '',
-                        amount: initialAmount, // Set the initial amount
+                        amount: initialAmount,
                         gas: '',
                         cashrec: '',
                         totalamount: '',
                     });
-
-                    // Set the matching customer object
                     setLabour(matchingLabour);
-                    setIsLoading(false); // Turn off loading state after data fetch
+                    setIsLoading(false);
                 } else {
                     setIsLoading(false);
                 }
@@ -61,6 +55,16 @@ const Landing = () => {
         };
         fetchData();
     }, [labourid]);
+
+    useEffect(() => {
+        // Calculate the amount based on the new lot value whenever it changes
+        const calculatedAmount = parseFloat(newData.lot) === 0 ? 0 : parseFloat(newData.lot) * 450 || '';
+        setNewData(prevData => ({
+            ...prevData,
+            amount: calculatedAmount,
+        }));
+    }, [newData.lot]);
+
     const handleAddDataClick = () => {
         setIsAddingData(true);
         setEditingIndex(null); // Clear editing index when adding new data
@@ -69,6 +73,7 @@ const Landing = () => {
     const handlePrint = () => {
         window.print();
     };
+
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddingData, setIsAddingData] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
@@ -76,14 +81,12 @@ const Landing = () => {
         ? labour.data.filter(item => item.date.includes(searchQuery))
         : [];
 
-
     const handleDeleteClick = async (index, itemId) => {
         const shouldDelete = window.confirm("Are you sure you want to delete this item?");
         if (shouldDelete) {
             try {
                 await axios.delete(`/api/deletelabitem?labourid=${labour.labourid}&itemid=${itemId}`);
 
-                // Update the local state after successful deletion
                 const updatedTableItems = labour.data.filter((item, idx) => idx !== index);
                 setLabour(prevLabour => ({
                     ...prevLabour,
@@ -115,12 +118,10 @@ const Landing = () => {
 
         try {
             if (editingIndex !== null) {
-                // Update existing data when in edit mode
                 const updatedTableItems = labour.data.map((item, index) =>
                     index === editingIndex ? newData : item
                 );
 
-                // Send a PUT request to update the item
                 await axios.put(
                     `/api/updatelabitem?labourid=${labour.labourid}`,
                     newData
@@ -131,19 +132,14 @@ const Landing = () => {
                     data: updatedTableItems,
                 }));
             } else {
-                // Calculate the "amount" based on the "lot" value and a fixed rate of 450
                 const calculatedAmount = parseFloat(newData.lot) === 0 ? 0 : parseFloat(newData.lot) * 450 || '';
-
-                // Set the calculated amount in the newData
                 newData.amount = calculatedAmount;
 
-                // Send a POST request to add the new data
                 await axios.post(
                     `/api/addlabitem?labourid=${labour.labourid}`,
                     newData
                 );
 
-                // Update local state with the new data
                 const updatedTableItems = [...labour.data, newData];
                 setLabour((prevLabour) => ({
                     ...prevLabour,
@@ -151,12 +147,11 @@ const Landing = () => {
                 }));
             }
 
-            // Reset form and state
             setNewData({
                 date: '',
                 lot: '',
                 wages: '',
-                amount: '', // Reset the amount
+                amount: '',
                 gas: '',
                 cashrec: '',
                 totalamount: '',
@@ -176,7 +171,6 @@ const Landing = () => {
             const gas = parseFloat(item.gas) || 0;
             const cashrec = parseFloat(item.cashrec) || 0;
 
-            // Check if the values are empty and replace with 0
             const amountValue = isNaN(amount) ? 0 : amount;
             const gasValue = isNaN(gas) ? 0 : gas;
             const cashrecValue = isNaN(cashrec) ? 0 : cashrec;
@@ -186,26 +180,18 @@ const Landing = () => {
         }
     };
 
-
-
     if (labour) {
-        calculateBalance(labour.data); // Calculate balances
-
-
-
-
-
+        calculateBalance(labour.data);
 
         return (
             <div className='pt-10'>
-
                 <div className="w-full px-4 md:px-8">
                     <div className="items-start justify-between md:flex">
                         <div className="max-w-lg">
                             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl mb-4">
                                 {labour.labourname}&apos;s खाता
                             </h3>
-                            <ExcelGenerator tableItems={labour.data} />
+                            {/* <ExcelGenerator tableItems={labour.data} /> */}
                         </div>
                         <div className="mt-3 md:mt-0 print:hidden">
                             <a
@@ -222,7 +208,6 @@ const Landing = () => {
                             </button>
                             <LogoutButton/>
                         </div>
-
                     </div>
                     <table className="border-2 border-black mx-auto">
                         <tbody>
