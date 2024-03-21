@@ -3,14 +3,15 @@ import { initializeApp } from "firebase/app";
 import 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCaIjIA9mL2TabdM4_DesMA4JChxzmt63I",
-  authDomain: "visionjain.firebaseapp.com",
-  projectId: "visionjain",
-  storageBucket: "visionjain.appspot.com",
-  messagingSenderId: "220276851421",
-  appId: "1:220276851421:web:410eb3e9a43737aa8fd134",
-  measurementId: "G-R21WS3CJ8Q"
+  apiKey: "AIzaSyDPv6IfqizznvW4DGLrKqWkgZs5EMMsrrY",
+  authDomain: "jailime-18b0d.firebaseapp.com",
+  projectId: "jailime-18b0d",
+  storageBucket: "jailime-18b0d.appspot.com",
+  messagingSenderId: "467841153499",
+  appId: "1:467841153499:web:cfc6acd544bcc171fd0ffe",
+  measurementId: "G-TLT69QSEGY"
 };
+
 
 
 
