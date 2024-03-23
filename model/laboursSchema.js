@@ -30,6 +30,9 @@ const LabourSchema = new mongoose.Schema({
         totalamount: {
             type: String,
         },
+        remark: {
+            type: String,
+        },
     }],
 }, {timestamps: true});
 mongoose.models={}

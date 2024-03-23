@@ -17,6 +17,7 @@ const Landing = () => {
         gas: '',
         cashrec: '',
         totalamount: '',
+        remark:'',
     });
 
     const router = useRouter();
@@ -42,6 +43,7 @@ const Landing = () => {
                         gas: '',
                         cashrec: '',
                         totalamount: '',
+                        remark:'',
                     });
                     setLabour(matchingLabour);
                     setIsLoading(false);
@@ -155,6 +157,7 @@ const Landing = () => {
                 gas: '',
                 cashrec: '',
                 totalamount: '',
+                remark: '',
             });
             setIsAddingData(false);
             setEditingIndex(null);
@@ -247,9 +250,10 @@ const Landing = () => {
                                     <th className="py-3 px-6">LOT</th>
                                     <th className="py-3 px-6">WAGES</th>
                                     <th className="py-3 px-6">Amount</th>
-                                    <th className='py-3 px-6'>Gas</th>
+                                    <th className='py-3 px-6'>Gas + others</th>
                                     <th className="py-3 px-6">Daily Cash Recieved</th>
                                     <th className="py-3 px-6">Total Balance</th>
+                                    <th className="py-3 px-6">Remarks</th>
                                     <th className="py-3 px-6">Signature</th>
                                     <th className="py-3 px-6 print:hidden"></th>
                                 </tr>
@@ -276,6 +280,7 @@ const Landing = () => {
                                             <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                 {item.totalamount < 0 ? `${Math.abs(item.totalamount)} ADV` : item.totalamount}
                                             </td>
+                                            <td className="px-6 py-4 font-bold whitespace-nowrap"> {item.remark === '' ? '-' : item.remark}</td>
                                             <td className="px-6 py-4 whitespace-nowrap"></td>
                                             <td className="text-right px-6 whitespace-nowrap print:hidden">
                                                 <button
@@ -345,6 +350,14 @@ const Landing = () => {
                                         name="cashrec"
                                         placeholder="Daily Cash Recieved"
                                         value={newData.cashrec}
+                                        onChange={handleFormChange}
+                                        className="border p-2 rounded-md"
+                                    />
+                                    <input
+                                        type="text"
+                                        name="remark"
+                                        placeholder="Remarks"
+                                        value={newData.remark}
                                         onChange={handleFormChange}
                                         className="border p-2 rounded-md"
                                     />

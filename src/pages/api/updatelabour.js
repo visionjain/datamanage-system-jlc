@@ -27,7 +27,8 @@ const handler = async (req, res) => {
                     amount: item.amount,
                     gas: item.gas,
                     cashrec: item.cashrec,
-                    totalamount: item.totalamount
+                    totalamount: item.totalamount,
+                    remark: item.remark
                 }));
                 existingLabour.data = updatedData;
             }
