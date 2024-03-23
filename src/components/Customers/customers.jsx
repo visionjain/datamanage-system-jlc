@@ -10,7 +10,7 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
 import { AiOutlineUserAdd, AiOutlineArrowRight } from 'react-icons/ai';
 import { BsPrinter } from 'react-icons/bs';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegEyeSlash, FaRegEye, FaRegTrashAlt } from 'react-icons/fa';
 import LogoutButton from './LogoutButton';
 import LoadingBar from 'react-top-loading-bar'
 
@@ -231,6 +231,23 @@ const Customers = ({ customer }) => {
     const goToFirstPage = () => {
         setPageNumber(0); // Update the pageNumber state to 0 for the first page
     };
+    const [showBalance, setShowBalance] = useState(false);
+    const toggleBalance = () => {
+        setShowBalance(!showBalance);
+    };
+
+
+    const [isBalanceVisible, setIsBalanceVisible] = useState({});
+
+    // Function to toggle balance visibility for a specific row
+    const toggletwoBalance = (customerId) => {
+        setIsBalanceVisible(prevState => ({
+            ...prevState,
+            [customerId]: !prevState[customerId] // Toggle visibility
+        }));
+    };
+
+
 
     const handleDeleteClick = async (customerid) => {
         const shouldDelete = window.confirm("Are you sure you want to delete this customer?");
@@ -507,7 +524,16 @@ const Customers = ({ customer }) => {
                                         <div className="w-full md:w-1/2">
                                             <div className="text-center border-2 border-gray-400 w-80 md:w-64 rounded-xl shadow-xl p-4 md:ml-60 ml-10 md:mt-5">
                                                 <h2 className="text-xl font-semibold mb-2">Total Pending Balances</h2>
-                                                <div className="text-2xl font-bold italic">INR {calculateTotalBalance(customerData)}/-</div>
+                                                {showBalance ? (
+                                                    <div className="text-2xl font-bold italic">INR {calculateTotalBalance(customerData)}/-</div>
+                                                ) : (
+                                                    <div className="flex items-center justify-center">
+                                                        <div className="text-2xl font-bold italic ">********</div>
+                                                    </div>
+                                                )}
+                                                <button className="focus:outline-none text-xl mt-1" onClick={toggleBalance}>
+                                                    {showBalance ? <FaRegEye /> : <FaRegEyeSlash />}
+                                                </button>
                                             </div>
                                         </div>
                                         <div className="md:w-1/2 md:flex-col md:ml-0 ml-24">
@@ -569,10 +595,26 @@ const Customers = ({ customer }) => {
                                                     <td className="px-6 py-4 whitespace-nowrap font-bold">
                                                         {item.data.length > 0 ? item.data[item.data.length - 1].salesdate : ''}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">{calculateBalanceForCustomer(item)}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold">
+                                                        {/* Conditional rendering for balance/password */}
+                                                        {isBalanceVisible[item.customerid] ? (
+                                                            // Display balance when visible
+                                                            <span>{calculateBalanceForCustomer(item)}</span>
+                                                        ) : (
+                                                            "*******"
+                                                        )}
+                                                        {/* Toggle button for balance/password */}
+                                                        <button
+                                                            onClick={() => toggletwoBalance(item.customerid)}
+                                                            className="ml-2 text-blue-500 focus:outline-none"
+                                                        >
+                                                            {isBalanceVisible[item.customerid] ? <FaRegEye /> : <FaRegEyeSlash />}
+                                                        </button>
+                                                    </td>
+
                                                     <td className="px-6 py-4 whitespace-nowrap print:hidden font-semibold">
                                                         <button
-                                                            onClick={()=> handleViewData(item.customerid)}
+                                                            onClick={() => handleViewData(item.customerid)}
                                                             className="px-4 py-2 flex text-white bg-green-600 rounded-lg duration-150 hover:bg-green-700 active:shadow-lg"
                                                         >
                                                             View Data <AiOutlineArrowRight className='w-5 h-5 ml-1' />
